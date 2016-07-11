@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 11:44:38 by gmorer            #+#    #+#             */
-/*   Updated: 2016/07/08 11:26:13 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/07/11 17:48:56 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,6 @@ typedef struct		s_env
 
 int					**ft_read(char *argv, t_env *env);
 int					ft_parser(t_env *env, char *str);
+void				draw_pixel(t_env *env, int x, int y, t_color *color);
+void				ft_forline(t_env *env);
 #endif

@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/22 11:37:05 by gmorer            #+#    #+#             */
-/*   Updated: 2016/07/11 11:39:27 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/07/11 18:07:52 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	ft_image_put(t_env *env)
 {
 	env->img = mlx_new_image(env->mlx, SCREEN_X, SCREEN_Y);
-	ft_print(env);
+	ft_forline(env);
 	mlx_put_image_to_window(env->mlx, env->window, env->img, 0, 0);
 	mlx_destroy_image(env->mlx, env->img);
 	return (0);
@@ -83,9 +83,9 @@ int			main(int argc, char **argv)
 	ft_parser(env, argv[1]);
 	ft_putmapint(env);
 	env->mlx = mlx_init();
-	env->window = mlx_new_window(env->mlx, SCREEN_X, SCREEN_Y, "fractol");
+	env->window = mlx_new_window(env->mlx, SCREEN_X, SCREEN_Y, "wolf3d");
 	mlx_expose_hook(env->window, ft_image_put, env);
-	mlx_hook(env->window, 2, 3, ft_key, env);
+	//mlx_hook(env->window, 2, 3, ft_key, env);
 	mlx_hook(env->window, 17, (1L << 17), ft_exit, env);
 	mlx_loop(env->mlx);
 	return (0);

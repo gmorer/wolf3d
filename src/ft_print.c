@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/06 18:02:31 by gmorer            #+#    #+#             */
-/*   Updated: 2016/07/06 18:07:51 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/07/11 18:06:32 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,27 @@ static int		outside_window(int x, int y)
 		return (0);
 }
 
-static void		draw_pixel(t_env *e, int x, int y, t_color *color)
-{
+void			draw_pixel(t_env *e, int x, int y, t_color *color)
+{/*
+	ft_putendl("je pose un pixel1");
+	ft_putnbr(x);
+	ft_putendl("");
+	ft_putnbr(y);
+	ft_putendl("");
+	ft_putnbr(color->r);
+	ft_putendl("");
+	ft_putnbr(color->g);
+	ft_putendl("");
+	ft_putnbr(color->b);
+	ft_putendl("");
+*/
 	if (outside_window(x, y) == 0)
 		return ;
 	e->pixel_img = mlx_get_data_addr(e->img, &(e->bpp), &(e->s_line), &(e->ed));
 	e->pixel_img[x * e->bpp / 8 + y * e->s_line] = (char)color->r;
 	e->pixel_img[x * e->bpp / 8 + 1 + y * e->s_line] = (char)color->g;
 	e->pixel_img[x * e->bpp / 8 + 2 + y * e->s_line] = (char)color->b;
+//	ft_putendl("je pose un pixel2");
 }
 
 int				ft_print(t_env *env)

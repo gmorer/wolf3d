@@ -6,7 +6,7 @@
 #    By: gmorer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/05/20 11:35:32 by gmorer            #+#    #+#              #
-#    Updated: 2016/07/08 11:24:52 by gmorer           ###   ########.fr        #
+#    Updated: 2016/07/11 17:47:47 by gmorer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ INC = $(addprefix -I , $(HPATH))
 CFILES = main.c\
 		 ft_print.c\
 		 get_next_line.c\
-		 parser.c
+		 parser.c\
+		 print.c
 OFILES = $(CFILES:.c=.o)
 HFILES = inc/get_next_line.h inc/wolf3d.h libft/libft.h
 OBJ = $(addprefix $(OPATH), $(OFILES))
