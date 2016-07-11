@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 11:44:38 by gmorer            #+#    #+#             */
-/*   Updated: 2016/07/06 18:09:42 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/07/08 11:26:13 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,19 @@ typedef struct		s_color
 typedef struct		s_env
 {
 	char	*pixel_img;
-	char	***map;
 	void	*mlx;
 	void	*window;
 	void	*img;
+	int		**map;
 	int		bpp;
 	int		s_line;
 	int		ed;
 	int		posx;
 	int		posy;
+	int		sizex;
+	int		sizey;
 }					t_env;
 
-int					ft_print(t_env *e);
-
+int					**ft_read(char *argv, t_env *env);
+int					ft_parser(t_env *env, char *str);
 #endif

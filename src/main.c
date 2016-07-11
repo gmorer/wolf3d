@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/22 11:37:05 by gmorer            #+#    #+#             */
-/*   Updated: 2016/07/06 18:16:31 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/07/11 11:39:27 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,28 @@ static int	ft_key(int key, t_env *env)
 	return (0);
 }
 
+static int	ft_putmapint(t_env *env)
+{
+	int x;
+	int y;
+
+	x = 0;
+	y = 0;
+	while (y < env->sizey)
+	{
+		x = 0;
+		while(x < env->sizex)
+		{
+			ft_putnbr(env->map[y][x]);
+			ft_putchar(' ');
+			x++;
+		}
+		ft_putchar('\n');
+		y++;
+	}
+	return (0);
+}
+
 static int	ft_exit(t_env *e)
 {
 	(void)e;
@@ -53,10 +75,13 @@ int			main(int argc, char **argv)
 {
 	t_env	*env;
 
-	(void)argc;
-	(void)argv;
+	if (argc != 2)
+		return (0);
 	if (!(env = (t_env*)malloc(sizeof(t_env))))
 		return (1);
+	env->sizex = 0;
+	ft_parser(env, argv[1]);
+	ft_putmapint(env);
 	env->mlx = mlx_init();
 	env->window = mlx_new_window(env->mlx, SCREEN_X, SCREEN_Y, "fractol");
 	mlx_expose_hook(env->window, ft_image_put, env);

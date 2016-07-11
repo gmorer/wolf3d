@@ -6,7 +6,7 @@
 #    By: gmorer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/05/20 11:35:32 by gmorer            #+#    #+#              #
-#    Updated: 2016/07/06 18:03:28 by gmorer           ###   ########.fr        #
+#    Updated: 2016/07/08 11:24:52 by gmorer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,9 +19,11 @@ OPATH = obj/
 HPATH = inc/ libft/ minilibx/
 INC = $(addprefix -I , $(HPATH))
 CFILES = main.c\
-		 ft_print.c
+		 ft_print.c\
+		 get_next_line.c\
+		 parser.c
 OFILES = $(CFILES:.c=.o)
-HFILES = inc/wolf3d.h libft/libft.h
+HFILES = inc/get_next_line.h inc/wolf3d.h libft/libft.h
 OBJ = $(addprefix $(OPATH), $(OFILES))
 
 .PHONY: all clean fclean re
