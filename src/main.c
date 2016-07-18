@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/22 11:37:05 by gmorer            #+#    #+#             */
-/*   Updated: 2016/07/11 18:07:52 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/07/18 16:39:20 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,12 @@ int			main(int argc, char **argv)
 	if (!(env = (t_env*)malloc(sizeof(t_env))))
 		return (1);
 	env->sizex = 0;
+	env->posx = 5;
+	env->posy = 5;
+	env->planx = 0;
+	env->plany = 1;
+	env->anglex = -1;
+	env->angley = 0;
 	ft_parser(env, argv[1]);
 	ft_putmapint(env);
 	env->mlx = mlx_init();

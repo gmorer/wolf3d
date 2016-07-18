@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 11:44:38 by gmorer            #+#    #+#             */
-/*   Updated: 2016/07/11 17:48:56 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/07/18 10:08:11 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,16 @@ typedef struct		s_env
 	void	*mlx;
 	void	*window;
 	void	*img;
+	double	anglex;
+	double	angley;
+	double	posx;
+	double	posy;
+	double	planx;
+	double	plany;
 	int		**map;
 	int		bpp;
 	int		s_line;
 	int		ed;
-	int		posx;
-	int		posy;
 	int		sizex;
 	int		sizey;
 }					t_env;
