@@ -12,7 +12,7 @@
 
 NAME = wolf3d
 CC = clang
-CFLAGSX =  -L/usr/include -lXext -lX11 -lmlx -lm 
+CFLAGSX =  -L/usr/include -lXext -lX11 -lm 
 CFLAGS = -Weverything -L minilibx -lmlx -framework OpenGL -framework AppKit
 CPATH = src/
 OPATH = obj/

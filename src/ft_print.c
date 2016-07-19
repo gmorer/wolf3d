@@ -42,9 +42,9 @@ void			draw_pixel(t_env *e, int x, int y, t_color *color)
 	e->pixel_img[x * e->bpp / 8 + 2 + y * e->s_line] = (char)color->b;
 //	ft_putendl("je pose un pixel2");
 }
-
+/*
 int				ft_print(t_env *env)
 {
 	(void)env;
 	return (0);
-}
+}*/

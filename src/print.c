@@ -62,7 +62,7 @@ static	t_color	*getlen_color(int i, t_env *env, int *len)
 		{
 			disy += sqrt(1 + (dirx * dirx) / (diry * diry));
 			mapy += carrey;
-			side = 0;
+			side = 1;
 		}
 		if (env->map[mapx][mapy] > 0)
 			break;
@@ -78,9 +78,9 @@ static	t_color	*getlen_color(int i, t_env *env, int *len)
 	ft_putnbr(dirx);
 	ft_putchar('\n');
 	ft_putnbr(diry);
-	ft_putchar('\n');*/
-	ft_putnbr(*len);
 	ft_putchar('\n');
+	ft_putnbr(*len);
+	ft_putchar('\n');*/
 	color = (t_color*)malloc(sizeof(t_color));
 	color->r = 0;
 	color->g = 0;
