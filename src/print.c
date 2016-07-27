@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 13:15:37 by gmorer            #+#    #+#             */
-/*   Updated: 2016/07/18 16:41:20 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/07/27 13:49:09 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,75 +16,79 @@
 static	t_color	*getlen_color(int i, t_env *env, int *len)
 {
 	t_color *color;
-	double	dirx;
-	double	diry;
-	int		carrex;
-	int		carrey;
-	double	disx;
-	double	disy;
-	int		mapx;
-	int		mapy;
+	t_double_coord	raydir;
+	t_double_coord	dis;
+	t_double_coord	delta;
+	t_int_coord		step;
+	t_int_coord		map;
+	double			temp;
 	int		side;
+	int		hit;
 
-	mapx = (int)env->posx;
-	mapy = (int)env->posy;
-	dirx = env->anglex + env->planx * (2 * i / (double)SCREEN_X - 1);
-	diry = env->angley + env->plany * (2 * i / (double)SCREEN_X - 1);
-	if (dirx < 0)
+	side = 0;
+	hit = 0;
+	map.x = (int)env->pos.x;
+	map.y = (int)env->pos.y;
+	raydir.x = env->dir.x + env->plan.x * (2 * i / (double)SCREEN_X - 1);
+	raydir.y = env->dir.y + env->plan.y * (2 * i / (double)SCREEN_X - 1);
+	delta.x = sqrt(1 + (raydir.y * raydir.y) / (raydir.x * raydir.x));
+	delta.y = sqrt(1 + (raydir.x * raydir.x) / (raydir.y * raydir.y));
+	if (raydir.x < 0)
 	{
-		carrex = -1;
-		disx = (env->posx - mapx) * sqrt(1 + (diry * diry) / (dirx * dirx));
+		step.x = -1;
+		dis.x = (map.x - env->pos.x) * delta.x;
 	}
 	else
 	{
-		carrex = 1;	
-		disx = (mapx + 1.0 - env->posx) * sqrt(1 + (diry * diry) / (dirx * dirx));
+		step.x = 1;	
+		dis.x = (env->pos.x + 1.0 - map.x) * delta.x;
 	}
-	if (diry < 0)
+	if (raydir.y < 0)
 	{
-		carrey = -1;
-		disy = (env->posy - mapx) * sqrt(1 + (dirx * dirx) / (diry * diry));
+		step.y = -1;
+		dis.y = (map.y - env->pos.x) * delta.y;
 	}
 	else
 	{
-		carrey = 1;	
-		disy = (mapx + 1.0 - env->posy) * sqrt(1 + (dirx * dirx) / (diry * diry));
+		step.y = 1;	
+		dis.y = (env->pos.y + 1.0 - map.y) * delta.y;
 	}
-	while(1)
+	while(hit == 0)
 	{
-		if (disx < disy)
+		if (dis.x < dis.y)
 		{
-			disx += sqrt(1 + (diry * diry) / (dirx * dirx));
-			mapx += carrex;
+			dis.x += delta.x;
+			map.x += step.x;
 			side = 0;
 		}
 		else
 		{
-			disy += sqrt(1 + (dirx * dirx) / (diry * diry));
-			mapy += carrey;
+			dis.y += delta.y;
+			map.y += step.y;
 			side = 1;
 		}
-		if (env->map[mapx][mapy] > 0)
-			break;
+		if (env->map[map.x][map.y] > 0)
+			hit = 1;
 	}
 	if(side)
-		*len = (int)((mapy - env->posy + (1 - carrey) / 2) / diry);
+		temp =(map.y - env->pos.y + (1 - step.y) / 2) / raydir.y;
 	else
-		*len = (int)((mapx - env->posx + (1 - carrex) / 2) / dirx);/*
-	ft_putnbr(carrey);
-	ft_putchar('\n');
-	ft_putnbr(carrex);
-	ft_putchar('\n');
-	ft_putnbr(dirx);
-	ft_putchar('\n');
-	ft_putnbr(diry);
-	ft_putchar('\n');
-	ft_putnbr(*len);
-	ft_putchar('\n');*/
+		temp = (map.x - env->pos.x + (1 - step.x) / 2) / raydir.x;
+	if(*len != 0)
+		*len = (int)(SCREEN_X / temp);
 	color = (t_color*)malloc(sizeof(t_color));
-	color->r = 0;
-	color->g = 0;
-	color->b = 0;
+	if(side)
+	{
+		color->r = 0;
+		color->g = 0;
+		color->b = 0;
+	}
+	else
+	{
+		color->r = 255;
+		color->g = 255;
+		color->b = 255;
+	}
 	return (color);
 }
 
@@ -94,9 +98,9 @@ static void	ft_print_line(t_env *env, t_color *color, int len, int x)
 	t_color *temp;
 
 	temp = (t_color*)malloc(sizeof(t_color));
-	temp->r = 0;
+	temp->r = 255;
 	temp->g = 0;
-	temp->b = 255;
+	temp->b = 0;
 	y = 0;
 	while (y <= -len / 2 + SCREEN_Y / 2)
 	{
@@ -107,13 +111,14 @@ static void	ft_print_line(t_env *env, t_color *color, int len, int x)
 	{
 		draw_pixel(env, x, y++, color);
 	}
-	temp->r = 178; 
-	temp->g = 34; 
-	temp->b = 34; 
+	temp->r = 0; 
+	temp->g = 255; 
+	temp->b = 0; 
 	while (y <= SCREEN_Y)
 	{
 		draw_pixel(env, x, y++, temp);
 	}
+	free(temp);
 }
 
 void	ft_forline(t_env *env)

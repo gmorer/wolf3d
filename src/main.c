@@ -6,11 +6,14 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/22 11:37:05 by gmorer            #+#    #+#             */
-/*   Updated: 2016/07/18 16:39:20 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/07/27 14:31:19 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
+#include <stdio.h>
+
+int			ft_putmapint(t_env *env);
 
 static int	ft_image_put(t_env *env)
 {
@@ -28,31 +31,31 @@ static int	ft_key(int key, t_env *env)
 	(void)key;
 //	if (key == SHIFT)
 //	else if (key == CTR && env->zoom > 1)
-	if (key == UP && env->map[(int)(env->posx + env->anglex * 0.1)][(int)(env->posy + env->angley * 0.1)] == 0)
+	if (key == UP && env->map[(int)(env->pos.x + env->dir.x * 0.1)]
+			[(int)(env->pos.y + env->dir.y * 0.1)] == 0)
 	{
-		env->posx += env->anglex * 0.1;
-		env->posy += env->angley * 0.1;
-		printf("x : %f\ny : %f\n", env->posx, env->posy);
+		env->pos.x += env->dir.x * 0.1;
+		env->pos.y += env->dir.y * 0.1;
+		printf("x : %f\ny : %f\n", env->pos.x, env->pos.y);
 	}
 //	else if (key == DOWN)
 	else if (key == LEFT)
 	 {
-		 tmp = env->anglex;
-		 env->anglex = env->anglex * cos(-0.05) - env->angley * sin(-0.05);
-		 env->angley = tmp * sin(-0.05) + env->angley * cos(-0.05);
-		 tmp = env->planx;
-		 env->planx = env->planx * cos(-0.05) - env->plany * sin(-0.05);
-		 env->planx = tmp * sin(-0.05) + env->plany * cos(-0.05);
-		 //ft_putendl("yolo");
+		 tmp = env->dir.x;
+		 env->dir.x = env->dir.x * cos(0.05) - env->dir.y * sin(0.05);
+		 env->dir.y = tmp * sin(0.05) + env->dir.y * cos(0.05);
+		 tmp = env->plan.x;
+		 env->plan.x = env->plan.x * cos(0.05) - env->plan.y * sin(0.05);
+		 env->plan.x = tmp * sin(0.05) + env->plan.y * cos(0.05);
 	 }
 	else if (key == RIGHT)
 	{
-		 tmp = env->anglex;
-		 env->anglex = env->anglex * cos(0.05) - env->angley * sin(0.05);
-		 env->angley = tmp * sin(0.05) + env->angley * cos(0.05);
-		 tmp = env->planx;
-		 env->planx = env->planx * cos(0.05) - env->plany * sin(0.05);
-		 env->planx = tmp * sin(0.05) + env->plany * cos(0.05);
+		tmp = env->dir.x;
+		env->dir.x = env->dir.x * cos(-0.05) - env->dir.y * sin(-0.05);
+		env->dir.y = tmp * sin(-0.05) + env->dir.y * cos(-0.05);
+		tmp = env->plan.x;
+		env->plan.x = env->plan.x * cos(-0.05) - env->plan.y * sin(-0.05);
+		env->plan.x = tmp * sin(-0.05) + env->plan.y * cos(-0.05);
 	}
 //	else if (key == KEY_W)
 //	else if (key == KEY_S)
@@ -62,28 +65,31 @@ static int	ft_key(int key, t_env *env)
 		exit(0);
 	else
 		return (0);
+	ft_putmapint(env);
 	ft_image_put(env);
 	return (0);
 }
 
-static int	ft_putmapint(t_env *env)
+int			ft_putmapint(t_env *env)
 {
-	int x;
-	int y;
+	t_int_coord	i;
 
-	x = 0;
-	y = 0;
-	while (y < env->sizey)
+	i.x = 0;
+	i.y = 0;
+	while (i.y < env->size.y)
 	{
-		x = 0;
-		while(x < env->sizex)
+		i.x = 0;
+		while(i.x < env->size.x)
 		{
-			ft_putnbr(env->map[y][x]);
+			if (i.x == (int)(env->pos.x) && i.y == (int)(env->pos.y))
+				ft_putchar('p');
+			else
+				ft_putnbr(env->map[i.y][i.x]);
 			ft_putchar(' ');
-			x++;
+			i.x++;
 		}
 		ft_putchar('\n');
-		y++;
+		i.y++;
 	}
 	return (0);
 }
@@ -102,13 +108,13 @@ int			main(int argc, char **argv)
 		return (0);
 	if (!(env = (t_env*)malloc(sizeof(t_env))))
 		return (1);
-	env->sizex = 0;
-	env->posx = 3;
-	env->posy = 3;
-	env->planx = 0;
-	env->plany = 1;
-	env->anglex = -1;
-	env->angley = 0;
+	env->size.x = 0;
+	env->pos.x = 3;
+	env->pos.y = 3;
+	env->plan.x = 0;
+	env->plan.y = 0.66;
+	env->dir.x = -1;
+	env->dir.y = 0;
 	ft_parser(env, argv[1]);
 	ft_putmapint(env);
 	env->mlx = mlx_init();

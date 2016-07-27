@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/08 10:56:43 by gmorer            #+#    #+#             */
-/*   Updated: 2016/07/11 11:37:37 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/07/27 12:45:37 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,27 +48,25 @@ static int	ft_remp(t_env *env, char *str)
 
 static int	ft_check(t_env *env, char *file)
 {
-	int		fd;
-	char	*line;
-	int		lenx;
-	int		leny;
+	int				fd;
+	char			*line;
+	t_int_coord		len;
 
-	leny = 0;
-	lenx = 0;
+	len.y = 0;
+	len.x = 0;
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 		return (0);
 	while (get_next_line(fd, &line) > 0)
 	{
-		if (lenx == 0)
-			lenx = ft_strstrlen(ft_strsplit(line, ' '));
+		if (len.x == 0)
+			len.x = ft_strstrlen(ft_strsplit(line, ' '));
 		else
-			if(lenx != ft_strstrlen(ft_strsplit(line, ' ')))
+			if(len.x != ft_strstrlen(ft_strsplit(line, ' ')))
 				return (0);
-		leny++;
+		len.y++;
 	}
-	env->sizex = lenx;
-	env->sizey = leny;
+	env->size = len;
 	return (1);
 }
 
@@ -78,10 +76,10 @@ int			ft_parser(t_env *env, char *str)
 
 	i = 0;
 	ft_check(env, str);
-	env->map = (int**)malloc(sizeof(int*) * (unsigned long)env->sizey);
-	while (i < env->sizex)
+	env->map = (int**)malloc(sizeof(int*) * (unsigned long)env->size.y);
+	while (i < env->size.x)
 	{
-		env->map[i] = (int*)malloc(sizeof(int) * (unsigned long)env->sizex);
+		env->map[i] = (int*)malloc(sizeof(int) * (unsigned long)env->size.x);
 		i++;
 	}
 	ft_remp(env, str);

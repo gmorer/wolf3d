@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 11:44:38 by gmorer            #+#    #+#             */
-/*   Updated: 2016/07/18 10:08:11 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/07/27 12:48:53 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,18 @@
 # include "mlx.h"
 # include "libft.h"
 
+typedef struct		s_double_coord
+{
+	double	x;
+	double	y;
+}					t_double_coord;
+
+typedef struct		s_int_coord
+{
+	int	x;
+	int	y;
+}					t_int_coord;
+
 typedef struct		s_color
 {
 	int		r;
@@ -60,22 +72,18 @@ typedef struct		s_color
 
 typedef struct		s_env
 {
-	char	*pixel_img;
-	void	*mlx;
-	void	*window;
-	void	*img;
-	double	anglex;
-	double	angley;
-	double	posx;
-	double	posy;
-	double	planx;
-	double	plany;
-	int		**map;
-	int		bpp;
-	int		s_line;
-	int		ed;
-	int		sizex;
-	int		sizey;
+	char			*pixel_img;
+	void			*mlx;
+	void			*window;
+	void			*img;
+	t_double_coord	dir;
+	t_double_coord	pos;
+	t_double_coord	plan;
+	t_int_coord		size;
+	int				**map;
+	int				bpp;
+	int				s_line;
+	int				ed;
 }					t_env;
 
 int					**ft_read(char *argv, t_env *env);
