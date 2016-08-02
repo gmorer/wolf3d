@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 13:15:37 by gmorer            #+#    #+#             */
-/*   Updated: 2016/07/27 13:49:09 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/08/02 11:24:07 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,7 @@ static	t_color	*getlen_color(int i, t_env *env, int *len)
 	t_int_coord		map;
 	double			temp;
 	int		side;
-	int		hit;
 
-	side = 0;
-	hit = 0;
 	map.x = (int)env->pos.x;
 	map.y = (int)env->pos.y;
 	raydir.x = env->dir.x + env->plan.x * (2 * i / (double)SCREEN_X - 1);
@@ -36,24 +33,24 @@ static	t_color	*getlen_color(int i, t_env *env, int *len)
 	if (raydir.x < 0)
 	{
 		step.x = -1;
-		dis.x = (map.x - env->pos.x) * delta.x;
+		dis.x = (env->pos.x - map.x) * delta.x;
 	}
 	else
 	{
 		step.x = 1;	
-		dis.x = (env->pos.x + 1.0 - map.x) * delta.x;
+		dis.x = (map.x + 1.0 - env->pos.x) * delta.x;
 	}
 	if (raydir.y < 0)
 	{
 		step.y = -1;
-		dis.y = (map.y - env->pos.x) * delta.y;
+		dis.y = (env->pos.y - map.y) * delta.y;
 	}
 	else
 	{
 		step.y = 1;	
-		dis.y = (env->pos.y + 1.0 - map.y) * delta.y;
+		dis.y = (map.y + 1.0 - env->pos.y) * delta.y;
 	}
-	while(hit == 0)
+	while(1)
 	{
 		if (dis.x < dis.y)
 		{
@@ -68,13 +65,13 @@ static	t_color	*getlen_color(int i, t_env *env, int *len)
 			side = 1;
 		}
 		if (env->map[map.x][map.y] > 0)
-			hit = 1;
+			break;
 	}
 	if(side)
-		temp =(map.y - env->pos.y + (1 - step.y) / 2) / raydir.y;
+		temp = (map.y - env->pos.y + (1 - step.y) / 2) / raydir.y;
 	else
 		temp = (map.x - env->pos.x + (1 - step.x) / 2) / raydir.x;
-	if(*len != 0)
+	//if(*len != 0)
 		*len = (int)(SCREEN_X / temp);
 	color = (t_color*)malloc(sizeof(t_color));
 	if(side)

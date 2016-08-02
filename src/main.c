@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/22 11:37:05 by gmorer            #+#    #+#             */
-/*   Updated: 2016/07/27 14:31:19 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/08/02 10:18:11 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,13 @@ static int	ft_key(int key, t_env *env)
 		env->pos.y += env->dir.y * 0.1;
 		printf("x : %f\ny : %f\n", env->pos.x, env->pos.y);
 	}
-//	else if (key == DOWN)
+	else if (key == DOWN && env->map[(int)(env->pos.x - env->dir.x * 0.1)]
+			[(int)(env->pos.y - env->dir.y * 0.1)] == 0)
+	{
+		env->pos.x -= env->dir.x * 0.1;
+		env->pos.y -= env->dir.y * 0.1;
+		printf("x : %f\ny : %f\n", env->pos.x, env->pos.y);
+	}
 	else if (key == LEFT)
 	 {
 		 tmp = env->dir.x;
@@ -46,7 +52,7 @@ static int	ft_key(int key, t_env *env)
 		 env->dir.y = tmp * sin(0.05) + env->dir.y * cos(0.05);
 		 tmp = env->plan.x;
 		 env->plan.x = env->plan.x * cos(0.05) - env->plan.y * sin(0.05);
-		 env->plan.x = tmp * sin(0.05) + env->plan.y * cos(0.05);
+		 env->plan.y = tmp * sin(0.05) + env->plan.y * cos(0.05);
 	 }
 	else if (key == RIGHT)
 	{
@@ -55,7 +61,7 @@ static int	ft_key(int key, t_env *env)
 		env->dir.y = tmp * sin(-0.05) + env->dir.y * cos(-0.05);
 		tmp = env->plan.x;
 		env->plan.x = env->plan.x * cos(-0.05) - env->plan.y * sin(-0.05);
-		env->plan.x = tmp * sin(-0.05) + env->plan.y * cos(-0.05);
+		env->plan.y = tmp * sin(-0.05) + env->plan.y * cos(-0.05);
 	}
 //	else if (key == KEY_W)
 //	else if (key == KEY_S)
