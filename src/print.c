@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 13:15:37 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/02 11:24:07 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/08/02 17:13:11 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,36 +56,40 @@ static	t_color	*getlen_color(int i, t_env *env, int *len)
 		{
 			dis.x += delta.x;
 			map.x += step.x;
-			side = 0;
+			if (raydir.x < 0)
+				side = 0;
+			else
+				side = 1;
 		}
 		else
 		{
 			dis.y += delta.y;
 			map.y += step.y;
-			side = 1;
+			if (raydir.y < 0)
+				side = 2;
+			else
+				side = 3;
 		}
 		if (env->map[map.x][map.y] > 0)
 			break;
 	}
-	if(side)
+	if(side == 2 || side == 3)
 		temp = (map.y - env->pos.y + (1 - step.y) / 2) / raydir.y;
 	else
 		temp = (map.x - env->pos.x + (1 - step.x) / 2) / raydir.x;
-	//if(*len != 0)
+	if(temp > 1)	
 		*len = (int)(SCREEN_X / temp);
-	color = (t_color*)malloc(sizeof(t_color));
-	if(side)
-	{
-		color->r = 0;
-		color->g = 0;
-		color->b = 0;
-	}
 	else
-	{
-		color->r = 255;
-		color->g = 255;
-		color->b = 255;
-	}
+		*len = SCREEN_X;
+	color = (t_color*)malloc(sizeof(t_color));
+	if(side == 0)
+		*color = MAGENTA;
+	if(side == 1)
+		*color = GREY;
+	if(side == 2)
+		*color = MAROON;
+	if(side == 3)
+		*color = PURPLE;
 	return (color);
 }
 
@@ -95,9 +99,7 @@ static void	ft_print_line(t_env *env, t_color *color, int len, int x)
 	t_color *temp;
 
 	temp = (t_color*)malloc(sizeof(t_color));
-	temp->r = 255;
-	temp->g = 0;
-	temp->b = 0;
+	*temp = BLUE;
 	y = 0;
 	while (y <= -len / 2 + SCREEN_Y / 2)
 	{
@@ -108,9 +110,7 @@ static void	ft_print_line(t_env *env, t_color *color, int len, int x)
 	{
 		draw_pixel(env, x, y++, color);
 	}
-	temp->r = 0; 
-	temp->g = 255; 
-	temp->b = 0; 
+	*temp = YELLOW; 
 	while (y <= SCREEN_Y)
 	{
 		draw_pixel(env, x, y++, temp);

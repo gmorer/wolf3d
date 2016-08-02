@@ -6,7 +6,7 @@
 #    By: gmorer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/05/20 11:35:32 by gmorer            #+#    #+#              #
-#    Updated: 2016/07/18 11:51:16 by gmorer           ###   ########.fr        #
+#    Updated: 2016/08/02 13:51:38 by gmorer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,9 +22,14 @@ CFILES = main.c\
 		 ft_print.c\
 		 get_next_line.c\
 		 parser.c\
-		 print.c
+		 print.c\
+		 move.c
 OFILES = $(CFILES:.c=.o)
-HFILES = inc/get_next_line.h inc/wolf3d.h libft/libft.h
+HFILES = inc/get_next_line.h\
+		 inc/wolf3d.h\
+		 inc/input.h\
+		 inc/color.h\
+		 libft/libft.h
 OBJ = $(addprefix $(OPATH), $(OFILES))
 
 .PHONY: all clean fclean re
