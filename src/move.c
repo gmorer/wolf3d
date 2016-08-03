@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/22 11:37:05 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/02 16:49:08 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/08/03 12:48:44 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,11 @@ static int	ft_move( t_env *env)
 {
 	double	tmp;
 
-	if (env->key.up == 1 && env->map[(int)(env->pos.x + env->dir.x * 0.2)]
-			[(int)(env->pos.y + env->dir.y * 0.2)] == 0)
+	if (env->key.move != 0 && env->map[(int)(env->pos.x + env->dir.x * 0.1 * env->key.move)]
+			[(int)(env->pos.y + env->dir.y * 0.1 * env->key.move)] == 0)
 	{
-		env->pos.x += env->dir.x * 0.2;
-		env->pos.y += env->dir.y * 0.2;
-	}
-	if (env->key.down == 1 && env->map[(int)(env->pos.x - env->dir.x * 0.1)]
-			[(int)(env->pos.y - env->dir.y * 0.1)] == 0)
-	{
-		env->pos.x -= env->dir.x * 0.1;
-		env->pos.y -= env->dir.y * 0.1;
+		env->pos.x += env->dir.x * 0.1 * env->key.move;
+		env->pos.y += env->dir.y * 0.1 * env->key.move;
 	}
 	if (env->key.turn == 1 || env->key.turn == -1)
 	{
@@ -42,9 +36,9 @@ static int	ft_move( t_env *env)
 
 int			ft_image_put(t_env *env)
 {
-	ft_move(env);//case1
+	//ft_move(env);//case1
 	ft_forline(env);
 	mlx_put_image_to_window(env->mlx, env->window, env->img, 0, 0);
-	//ft_move(env);//case2
+	ft_move(env);//case2
 	return (1);
 }

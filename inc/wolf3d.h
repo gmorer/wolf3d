@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 11:44:38 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/02 15:40:13 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/08/03 12:17:19 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,8 @@ typedef struct		s_int_coord
 
 typedef struct		s_key
 {
-	int		up;
-	int		down;
 	int		turn;
+	int		move;
 }					t_key;
 
 typedef struct		s_block

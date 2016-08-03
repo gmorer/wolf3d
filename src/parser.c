@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/08 10:56:43 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/02 12:28:06 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/08/03 11:54:58 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,14 @@ static int	ft_remp(t_env *env, char *str)
 		temp = ft_strsplit(line, ' ');
 		while (temp[y])
 		{
-			env->map[i][y] = ft_atoi(temp[y]);
+			if (ft_strcmp(temp[y], "a") == 0)
+			{
+				env->pos.x = i;
+				env->pos.y = y;
+				env->map[i][y] = 0;
+			}
+			else
+				env->map[i][y] = ft_atoi(temp[y]);
 			y++;
 		}
 		i++;
