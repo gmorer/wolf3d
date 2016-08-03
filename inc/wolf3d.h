@@ -6,13 +6,13 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 11:44:38 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/03 12:17:19 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/08/03 16:19:17 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WOLF3D_H
 # define WOLF3D_H
-# define SCREEN_X 1920
+# define SCREEN_X 1440
 # define SCREEN_Y 1080
 # include <fcntl.h>
 # include <stdlib.h>
@@ -20,6 +20,7 @@
 # include <sys/uio.h>
 # include <unistd.h>
 # include <math.h>
+# include <time.h>
 # include "mlx.h"
 # include "libft.h"
 # include "color.h"
@@ -59,11 +60,13 @@ typedef struct		s_env
 	void			*mlx;
 	void			*window;
 	void			*img;
+	clock_t			oldtime;
 	t_key			key;
 	t_double_coord	dir;
 	t_double_coord	pos;
 	t_double_coord	plan;
 	t_int_coord		size;
+	int				shadow;
 	int				**map;
 	int				bpp;
 	int				s_line;

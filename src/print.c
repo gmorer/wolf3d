@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 13:15:37 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/03 12:13:47 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/08/03 16:21:49 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static	t_color	*getlen_color(int i, t_env *env, int *len)
 			else
 				side = 3;
 		}
-		if (env->map[map.x][map.y] > 0)
+		if (env->map[map.x][map.y] > 0 )
 			break;
 	}
 	if(side == 2 || side == 3)
@@ -99,20 +99,31 @@ static void	ft_print_line(t_env *env, t_color *color, int len, int x)
 	t_color *temp;
 
 	temp = (t_color*)malloc(sizeof(t_color));
-	*temp = BLUE;
 	y = 0;
+	*temp = BLACK;
 	while (y <= -len / 2 + SCREEN_Y / 2)
 	{
 		draw_pixel(env, x, y, temp);
 		y++;
 	}
+	if(len < SCREEN_Y && env->shadow == 1)
+	{
+		color->r = color->r * len / SCREEN_Y;
+		color->g = color->g * len / SCREEN_Y;
+		color->b = color->b * len / SCREEN_Y;
+	}
 	while (y <= len / 2 + SCREEN_Y / 2)
 	{
 		draw_pixel(env, x, y++, color);
 	}
-	*temp = YELLOW; 
+	*temp = YELLOW;
 	while (y <= SCREEN_Y)
 	{
+		if (env->shadow == 1)
+		{
+			temp->r = 255 * (y - SCREEN_Y / 2) / (SCREEN_Y / 2);	
+			temp->g = 255 * (y - SCREEN_Y / 2) / (SCREEN_Y / 2);	
+		}
 		draw_pixel(env, x, y++, temp);
 	}
 	free(temp);

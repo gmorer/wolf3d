@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/22 11:37:05 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/03 12:49:41 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/08/03 16:23:01 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ static int			ft_key_press(int key, t_env *env)
 		env->key.turn = 1;
 	if (key == ESC)
 		ft_exit(env);
+	if (key == SPACE && env->shadow == 0)
+		env->shadow = 1;
+	else if (key == SPACE && env->shadow == 1)
+		env->shadow = 0;
 	return (0);
 }
 
@@ -57,11 +61,13 @@ static t_env	*ft_init(char *argv)
 		return (NULL);
 	env->size.x = 0;
 	env->plan.x = 0;
-	env->plan.y = 0.66;
+	env->plan.y = 0.5;
 	env->dir.x = -1;
 	env->dir.y = 0;
 	env->key.turn = 0;
 	env->key.move = 0;
+	env->shadow = 0;
+	env->oldtime = clock();
 	if (ft_parser(env, argv) == 0)
 		return (NULL);
 	if (!(env->mlx = mlx_init()))
@@ -81,6 +87,7 @@ int			main(int argc, char **argv)
 		return (0);
 	if (!(env = ft_init(argv[1])))
 		return (1);
+	ft_putendl("test");
 	mlx_hook(env->window, 3, 2, ft_key_unpress, env);
 	mlx_hook(env->window, 2, 1, ft_key_press, env);
 	mlx_hook(env->window, 17, (1L << 17), ft_exit, env);

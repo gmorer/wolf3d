@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/08 10:56:43 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/03 11:54:58 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/08/03 13:34:26 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,10 @@ int			ft_parser(t_env *env, char *str)
 	i = 0;
 	if (!ft_check(env, str))
 		return (0);
-	env->map = (int**)malloc(sizeof(int*) * (unsigned long)env->size.y);
-	while (i < env->size.x)
+	env->map = (int**)malloc(sizeof(int*) * ((unsigned long)env->size.y + 1));
+	while (i < (env->size.y + 1))
 	{
-		env->map[i] = (int*)malloc(sizeof(int) * (unsigned long)env->size.x);
+		env->map[i] = (int*)malloc(sizeof(int) * ((unsigned long)env->size.x + 1));
 		i++;
 	}
 	ft_remp(env, str);
