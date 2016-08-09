@@ -13,7 +13,7 @@
 #ifndef WOLF3D_H
 # define WOLF3D_H
 # define SCREEN_X 1440
-# define SCREEN_Y 1080
+# define SCREEN_Y 940
 # include <fcntl.h>
 # include <stdlib.h>
 # include <sys/types.h>

@@ -59,6 +59,7 @@ static t_env	*ft_init(char *argv)
 
 	if (!(env = (t_env*)malloc(sizeof(t_env))))
 		return (NULL);
+	/*
 	env->size.x = 0;
 	env->plan.x = 0;
 	env->plan.y = 0.5;
@@ -68,6 +69,8 @@ static t_env	*ft_init(char *argv)
 	env->key.move = 0;
 	env->shadow = 0;
 	env->oldtime = clock();
+	*/
+	*env = (t_env){NULL, NULL, NULL, NULL, clock(), (t_key){0, 0}, (t_double_coord){-1, 0}, (t_double_coord){0, 0}, (t_double_coord){0, 0.5},(t_int_coord){0, 0}, 0, NULL, 0, 0, 0};
 	if (ft_parser(env, argv) == 0)
 		return (NULL);
 	if (!(env->mlx = mlx_init()))
@@ -86,6 +89,8 @@ int			main(int argc, char **argv)
 	if (argc != 2)
 		return (0);
 	if (!(env = ft_init(argv[1])))
+		ft_putendl("parsing error");
+	if (!env)
 		return (1);
 	ft_putendl("test");
 	mlx_hook(env->window, 3, 2, ft_key_unpress, env);

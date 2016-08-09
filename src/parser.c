@@ -91,5 +91,7 @@ int			ft_parser(t_env *env, char *str)
 		i++;
 	}
 	ft_remp(env, str);
+	if (env->pos.x == 0 || env->pos.y == 0)
+		return (NULL);
 	return (1);	
 }
