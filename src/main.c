@@ -82,6 +82,25 @@ static t_env	*ft_init(char *argv)
 	return (env);
 }
 
+static void		printyolo(t_env *env)
+{
+	int x;
+	int y;
+
+	y = 0;
+	while (y < env->size.y + 2)
+	{
+		x = 0;
+		while (x < env->size.x + 2)
+		{
+			ft_putnbr(env->map[y][x]);
+			x++;
+		}
+		ft_putchar('\n');
+		y++;
+	}	
+}
+
 int			main(int argc, char **argv)
 {
 	t_env	*env;
@@ -92,6 +111,7 @@ int			main(int argc, char **argv)
 		ft_putendl("parsing error");
 	if (!env)
 		return (1);
+	printyolo(env);
 	ft_putendl("test");
 	mlx_hook(env->window, 3, 2, ft_key_unpress, env);
 	mlx_hook(env->window, 2, 1, ft_key_press, env);

@@ -30,7 +30,7 @@ static int	ft_remp(t_env *env, char *str)
 	int		y;
 	char	**temp;
 
-	i = 0;
+	i = 1;
 	fd = open(str, O_RDONLY);
 	while (get_next_line(fd, &line) > 0)
 	{
@@ -45,7 +45,7 @@ static int	ft_remp(t_env *env, char *str)
 				env->map[i][y] = 0;
 			}
 			else
-				env->map[i][y] = ft_atoi(temp[y]);
+				env->map[i][y + 1] = ft_atoi(temp[y]);
 			y++;
 		}
 		i++;
@@ -84,12 +84,29 @@ int			ft_parser(t_env *env, char *str)
 	i = 0;
 	if (!ft_check(env, str))
 		return (0);
-	env->map = (int**)malloc(sizeof(int*) * ((unsigned long)env->size.y + 1));
-	while (i < (env->size.y + 1))
+	env->map = (int**)malloc(sizeof(int*) * ((unsigned long)env->size.y + 2));
+	while (i < (env->size.y + 2))
 	{
-		env->map[i] = (int*)malloc(sizeof(int) * ((unsigned long)env->size.x + 1));
+		env->map[i] = (int*)malloc(sizeof(int) * ((unsigned long)env->size.x + 2));
 		i++;
 	}
+	i = 0;
+	ft_putendl("test1");
+	while (i < env->size.y + 2)
+		env->map[i++][0] = 1;
+	ft_putendl("test2");
+	i = 0;
+	while (i < env->size.y + 2)
+		env->map[i++][env->size.x + 1] = 1;
+	ft_putendl("test3");
+	i = 0;
+	while (i < env->size.x + 2)
+		env->map[0][i++] = 1;
+	ft_putendl("test4");
+	i = 0;
+	while (i < env->size.x + 2)
+		env->map[env->size.y + 1][i++] = 1;
+	ft_putendl("test5");
 	ft_remp(env, str);
 	if (env->pos.x == 0 || env->pos.y == 0)
 		return (NULL);
