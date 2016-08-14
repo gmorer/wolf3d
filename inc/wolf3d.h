@@ -60,6 +60,7 @@ typedef struct		s_env
 	void			*mlx;
 	void			*window;
 	void			*img;
+	void			*minimap;
 	clock_t			oldtime;
 	t_key			key;
 	t_double_coord	dir;
@@ -75,7 +76,7 @@ typedef struct		s_env
 
 int					**ft_read(char *argv, t_env *env);
 int					ft_parser(t_env *env, char *str);
-void				draw_pixel(t_env *env, int x, int y, t_color *color);
+void				draw_pixel(t_env *env, void *img, t_int_coord coord, t_color *color);
 void				ft_forline(t_env *env);
 int					ft_image_put(t_env *env);
 #endif

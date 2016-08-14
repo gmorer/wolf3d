@@ -23,7 +23,8 @@ CFILES = main.c\
 		 get_next_line.c\
 		 parser.c\
 		 print.c\
-		 move.c
+		 move.c\
+		 minimap.c
 OFILES = $(CFILES:.c=.o)
 HFILES = inc/get_next_line.h\
 		 inc/wolf3d.h\

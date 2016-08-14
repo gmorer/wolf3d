@@ -13,20 +13,20 @@
 #include "wolf3d.h"
 #include "color.h"
 
-static int		outside_window(int x, int y)
+static int		outside_window(t_int_coord coord)
 {
-	if (!(x > SCREEN_X - 1 || x < 0 || y > SCREEN_Y - 1 || y < 0))
+	if (!(coord.x > SCREEN_X - 1 || coord.x < 0 || coord.y > SCREEN_Y - 1 || coord.y < 0))
 		return (1);
 	else
 		return (0);
 }
 
-void			draw_pixel(t_env *e, int x, int y, t_color *color)
+void			draw_pixel(t_env *e, void *img, t_int_coord coord, t_color *color)
 {
-	if (outside_window(x, y) == 0)
+	if (outside_window(coord) == 0)
 		return ;
-	e->pixel_img = mlx_get_data_addr(e->img, &(e->bpp), &(e->s_line), &(e->ed));
-	e->pixel_img[x * e->bpp / 8 + 0 + y * e->s_line] = (char)color->b;
-	e->pixel_img[x * e->bpp / 8 + 1 + y * e->s_line] = (char)color->g;
-	e->pixel_img[x * e->bpp / 8 + 2 + y * e->s_line] = (char)color->r;
+	e->pixel_img = mlx_get_data_addr(img, &(e->bpp), &(e->s_line), &(e->ed));
+	e->pixel_img[coord.x * e->bpp / 8 + 0 + coord.y * e->s_line] = (char)color->b;
+	e->pixel_img[coord.x * e->bpp / 8 + 1 + coord.y * e->s_line] = (char)color->g;
+	e->pixel_img[coord.x * e->bpp / 8 + 2 + coord.y * e->s_line] = (char)color->r;
 }

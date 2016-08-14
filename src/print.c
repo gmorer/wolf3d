@@ -95,16 +95,17 @@ static	t_color	*getlen_color(int i, t_env *env, int *len)
 
 static void	ft_print_line(t_env *env, t_color *color, int len, int x)
 {
-	int y;
 	t_color *temp;
+	t_int_coord coord;
 
+	coord.x = x;
+	coord.y = 0;
 	temp = (t_color*)malloc(sizeof(t_color));
-	y = 0;
 	*temp = BLACK;
-	while (y <= -len / 2 + SCREEN_Y / 2)
+	while (coord.y <= -len / 2 + SCREEN_Y / 2)
 	{
-		draw_pixel(env, x, y, temp);
-		y++;
+		draw_pixel(env, env->img, coord, temp);
+		coord.y++;
 	}
 	if(len < SCREEN_Y && env->shadow == 1)
 	{
@@ -112,19 +113,21 @@ static void	ft_print_line(t_env *env, t_color *color, int len, int x)
 		color->g = color->g * len / SCREEN_Y;
 		color->b = color->b * len / SCREEN_Y;
 	}
-	while (y <= len / 2 + SCREEN_Y / 2)
+	while (coord.y <= len / 2 + SCREEN_Y / 2)
 	{
-		draw_pixel(env, x, y++, color);
+		draw_pixel(env, env->img, coord, color);
+		coord.y++;
 	}
 	*temp = YELLOW;
-	while (y <= SCREEN_Y)
+	while (coord.y <= SCREEN_Y)
 	{
 		if (env->shadow == 1)
 		{
-			temp->r = 255 * (y - SCREEN_Y / 2) / (SCREEN_Y / 2);	
-			temp->g = 255 * (y - SCREEN_Y / 2) / (SCREEN_Y / 2);	
+			temp->r = 255 * (coord.y - SCREEN_Y / 2) / (SCREEN_Y / 2);	
+			temp->g = 255 * (coord.y - SCREEN_Y / 2) / (SCREEN_Y / 2);	
 		}
-		draw_pixel(env, x, y++, temp);
+		draw_pixel(env, env->img, coord, temp);
+		coord.y++;
 	}
 	free(temp);
 }

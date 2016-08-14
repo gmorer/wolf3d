@@ -18,6 +18,7 @@ static int	ft_exit(t_env *env)
 {
 	(void)env;
 	mlx_destroy_image(env->mlx, env->img);
+	mlx_destroy_image(env->mlx, env->minimap);
 	exit(0);
 }
 
@@ -70,7 +71,7 @@ static t_env	*ft_init(char *argv)
 	env->shadow = 0;
 	env->oldtime = clock();
 	*/
-	*env = (t_env){NULL, NULL, NULL, NULL, clock(), (t_key){0, 0}, (t_double_coord){-1, 0}, (t_double_coord){0, 0}, (t_double_coord){0, 0.5},(t_int_coord){0, 0}, 0, NULL, 0, 0, 0};
+	*env = (t_env){NULL, NULL, NULL, NULL, NULL,  clock(), (t_key){0, 0}, (t_double_coord){-1, 0}, (t_double_coord){0, 0}, (t_double_coord){0, 0.5},(t_int_coord){0, 0}, 0, NULL, 0, 0, 0};
 	if (ft_parser(env, argv) == 0)
 		return (NULL);
 	if (!(env->mlx = mlx_init()))
@@ -78,6 +79,8 @@ static t_env	*ft_init(char *argv)
 	if (!(env->window = mlx_new_window(env->mlx, SCREEN_X, SCREEN_Y, "wolf3d")))
 		return (NULL);
 	if (!(env->img = mlx_new_image(env->mlx, SCREEN_X, SCREEN_Y)))
+		return (NULL);
+	if (!(env->minimap = mlx_new_image(env->mlx, 200, 200)))
 		return (NULL);
 	return (env);
 }
