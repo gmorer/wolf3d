@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/06 18:02:31 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/03 12:16:55 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/08/16 13:55:36 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,5 @@ void			draw_pixel(t_env *e, void *img, t_int_coord coord, t_color *color)
 	e->pixel_img[coord.x * e->bpp / 8 + 0 + coord.y * e->s_line] = (char)color->b;
 	e->pixel_img[coord.x * e->bpp / 8 + 1 + coord.y * e->s_line] = (char)color->g;
 	e->pixel_img[coord.x * e->bpp / 8 + 2 + coord.y * e->s_line] = (char)color->r;
+	e->pixel_img[coord.x * e->bpp / 8 + 3 + coord.y * e->s_line] = (char)color->a;
 }

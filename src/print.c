@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 13:15:37 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/03 16:21:49 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/08/16 13:45:34 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,13 +118,13 @@ static void	ft_print_line(t_env *env, t_color *color, int len, int x)
 		draw_pixel(env, env->img, coord, color);
 		coord.y++;
 	}
-	*temp = YELLOW;
+	*temp = GREEN;
 	while (coord.y <= SCREEN_Y)
 	{
 		if (env->shadow == 1)
 		{
-			temp->r = 255 * (coord.y - SCREEN_Y / 2) / (SCREEN_Y / 2);	
-			temp->g = 255 * (coord.y - SCREEN_Y / 2) / (SCREEN_Y / 2);	
+			temp->g = 128 * (coord.y - SCREEN_Y / 2) / (SCREEN_Y / 2);	
+			//temp->g = 255 * (coord.y - SCREEN_Y / 2) / (SCREEN_Y / 2);	
 		}
 		draw_pixel(env, env->img, coord, temp);
 		coord.y++;

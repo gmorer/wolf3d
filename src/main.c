@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/22 11:37:05 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/03 16:23:01 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/08/16 18:29:12 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,35 +54,31 @@ static int			ft_key_press(int key, t_env *env)
 	return (0);
 }
 
-static t_env	*ft_init(char *argv)
+static t_env	*ft_initenv(char *argv)
 {
 	t_env *env;
 
 	if (!(env = (t_env*)malloc(sizeof(t_env))))
 		return (NULL);
-	/*
-	env->size.x = 0;
-	env->plan.x = 0;
-	env->plan.y = 0.5;
-	env->dir.x = -1;
-	env->dir.y = 0;
-	env->key.turn = 0;
-	env->key.move = 0;
-	env->shadow = 0;
-	env->oldtime = clock();
-	*/
-	*env = (t_env){NULL, NULL, NULL, NULL, NULL,  clock(), (t_key){0, 0}, (t_double_coord){-1, 0}, (t_double_coord){0, 0}, (t_double_coord){0, 0.5},(t_int_coord){0, 0}, 0, NULL, 0, 0, 0};
+	*env = (t_env){NULL, NULL, NULL, NULL, NULL,  clock(), (t_key){0, 0},
+		(t_double_coord){-1, 0}, (t_double_coord){0, 0}, (t_double_coord){0, 0.5},
+		(t_int_coord){0, 0}, (t_int_coord){0, 0}, 0, NULL, 0, 0, 0};
 	if (ft_parser(env, argv) == 0)
 		return (NULL);
-	if (!(env->mlx = mlx_init()))
-		return (NULL);
-	if (!(env->window = mlx_new_window(env->mlx, SCREEN_X, SCREEN_Y, "wolf3d")))
-		return (NULL);
-	if (!(env->img = mlx_new_image(env->mlx, SCREEN_X, SCREEN_Y)))
-		return (NULL);
-	if (!(env->minimap = mlx_new_image(env->mlx, 200, 200)))
-		return (NULL);
 	return (env);
+}
+
+static int		ft_initmlx(t_env **env)
+{
+	if (!((*env)->mlx = mlx_init()))
+		return (0);
+	if (!((*env)->window = mlx_new_window((*env)->mlx, SCREEN_X, SCREEN_Y, "wolf3d")))
+		return (0);
+	if (!((*env)->img = mlx_new_image((*env)->mlx, SCREEN_X, SCREEN_Y)))
+		return (0);
+	if (!((*env)->minimap = mlx_new_image((*env)->mlx, 200, 200)))
+		return (0);
+	return (1);
 }
 
 static void		printyolo(t_env *env)
@@ -108,11 +104,18 @@ int			main(int argc, char **argv)
 {
 	t_env	*env;
 
-	if (argc != 2)
+	if (argc < 2 || argc > 3)
 		return (0);
-	if (!(env = ft_init(argv[1])))
+	if (!(env = ft_initenv(argv[1])))
 		ft_putendl("parsing error");
 	if (!env)
+		return (1);
+	if (argc == 3)
+		if (getsize(&env, argv[2]) == 0)
+			return (1);
+	if (!env)
+		return (1);
+	if (ft_initmlx(&env) == 0)
 		return (1);
 	printyolo(env);
 	ft_putendl("test");

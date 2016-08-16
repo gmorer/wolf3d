@@ -6,7 +6,7 @@
 #    By: gmorer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/05/20 11:35:32 by gmorer            #+#    #+#              #
-#    Updated: 2016/08/02 13:51:38 by gmorer           ###   ########.fr        #
+#    Updated: 2016/08/16 18:05:03 by gmorer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ CFILES = main.c\
 		 parser.c\
 		 print.c\
 		 move.c\
-		 minimap.c
+		 minimap.c\
+		 getsize.c
 OFILES = $(CFILES:.c=.o)
 HFILES = inc/get_next_line.h\
 		 inc/wolf3d.h\

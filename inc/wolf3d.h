@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 11:44:38 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/03 16:19:17 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/08/16 18:19:49 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct		s_env
 	t_double_coord	dir;
 	t_double_coord	pos;
 	t_double_coord	plan;
+	t_int_coord		screen;
 	t_int_coord		size;
 	int				shadow;
 	int				**map;
@@ -74,6 +75,7 @@ typedef struct		s_env
 	int				ed;
 }					t_env;
 
+int					getsize(t_env **env, char *argc);
 int					**ft_read(char *argv, t_env *env);
 int					ft_parser(t_env *env, char *str);
 void				draw_pixel(t_env *env, void *img, t_int_coord coord, t_color *color);
