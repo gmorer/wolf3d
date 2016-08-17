@@ -26,8 +26,8 @@ static	t_color	*getlen_color(int i, t_env *env, int *len)
 
 	map.x = (int)env->pos.x;
 	map.y = (int)env->pos.y;
-	raydir.x = env->dir.x + env->plan.x * (2 * i / (double)SCREEN_X - 1);
-	raydir.y = env->dir.y + env->plan.y * (2 * i / (double)SCREEN_X - 1);
+	raydir.x = env->dir.x + env->plan.x * (2 * i / (double)env->screen.x - 1);
+	raydir.y = env->dir.y + env->plan.y * (2 * i / (double)env->screen.x - 1);
 	delta.x = sqrt(1 + (raydir.y * raydir.y) / (raydir.x * raydir.x));
 	delta.y = sqrt(1 + (raydir.x * raydir.x) / (raydir.y * raydir.y));
 	if (raydir.x < 0)
@@ -78,9 +78,9 @@ static	t_color	*getlen_color(int i, t_env *env, int *len)
 	else
 		temp = (map.x - env->pos.x + (1 - step.x) / 2) / raydir.x;
 	if(temp > 1)	
-		*len = (int)(SCREEN_X / temp);
+		*len = (int)(env->screen.x / temp);
 	else
-		*len = SCREEN_X;
+		*len = env->screen.x;
 	color = (t_color*)malloc(sizeof(t_color));
 	if(side == 0)
 		*color = MAGENTA;
@@ -102,29 +102,28 @@ static void	ft_print_line(t_env *env, t_color *color, int len, int x)
 	coord.y = 0;
 	temp = (t_color*)malloc(sizeof(t_color));
 	*temp = BLACK;
-	while (coord.y <= -len / 2 + SCREEN_Y / 2)
+	while (coord.y <= -len / 2 + env->screen.y / 2)
 	{
 		draw_pixel(env, env->img, coord, temp);
 		coord.y++;
 	}
-	if(len < SCREEN_Y && env->shadow == 1)
+	if(len < env->screen.y && env->shadow == 1)
 	{
-		color->r = color->r * len / SCREEN_Y;
-		color->g = color->g * len / SCREEN_Y;
-		color->b = color->b * len / SCREEN_Y;
+		color->r = color->r * len / env->screen.y;
+		color->g = color->g * len / env->screen.y;
+		color->b = color->b * len / env->screen.y;
 	}
-	while (coord.y <= len / 2 + SCREEN_Y / 2)
+	while (coord.y <= len / 2 + env->screen.y / 2)
 	{
 		draw_pixel(env, env->img, coord, color);
 		coord.y++;
 	}
 	*temp = GREEN;
-	while (coord.y <= SCREEN_Y)
+	while (coord.y <= env->screen.y)
 	{
 		if (env->shadow == 1)
 		{
-			temp->g = 128 * (coord.y - SCREEN_Y / 2) / (SCREEN_Y / 2);	
-			//temp->g = 255 * (coord.y - SCREEN_Y / 2) / (SCREEN_Y / 2);	
+			temp->g = 128 * (coord.y - env->screen.y / 2) / (env->screen.y / 2);	
 		}
 		draw_pixel(env, env->img, coord, temp);
 		coord.y++;
@@ -139,7 +138,7 @@ void	ft_forline(t_env *env)
 	t_color	*color;
 
 	i = 0;
-	while (i <= SCREEN_X)
+	while (i <= env->screen.x)
 	{
 		color = getlen_color(i, env, &len);
 		ft_print_line(env, color, len, i);

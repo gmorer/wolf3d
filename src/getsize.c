@@ -29,6 +29,21 @@ static char	*getstart(char *c, int len)
 	return (result);
 }
 
+static int	sizecheck(t_env **env)
+{
+	if ((*env)->screen.x < 500 ||
+		(*env)->screen.x > 1920 ||
+		(*env)->screen.y < 500 ||
+		(*env)->screen.y > 1080)
+	{
+		(*env)->screen.x = SCREEN_X;
+		(*env)->screen.y = SCREEN_Y;
+		return (1);
+	}
+	return (0);
+}
+
+
 int		getsize(t_env **env, char *argc)
 {
 	int	i;
@@ -53,5 +68,6 @@ int		getsize(t_env **env, char *argc)
 		return (0);
 	(*env)->screen.x = ft_atoi(getstart(argc, len));
 	(*env)->screen.y = ft_atoi(argc + len + 1);
+	sizecheck(env);
 	return (1);
 }

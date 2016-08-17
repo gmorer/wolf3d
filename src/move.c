@@ -39,7 +39,7 @@ int			ft_image_put(t_env *env)
 	ft_forline(env);
 	ft_minimap(env);
 	mlx_put_image_to_window(env->mlx, env->window, env->img, 0, 0);
-	mlx_put_image_to_window(env->mlx, env->window, env->minimap, SCREEN_X - 200, SCREEN_Y - 200);
+	mlx_put_image_to_window(env->mlx, env->window, env->minimap, env->screen.x - 200, env->screen.y - 200);
 	ft_move(env);
 	return (1);
 }

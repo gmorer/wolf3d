@@ -62,7 +62,7 @@ static t_env	*ft_initenv(char *argv)
 		return (NULL);
 	*env = (t_env){NULL, NULL, NULL, NULL, NULL,  clock(), (t_key){0, 0},
 		(t_double_coord){-1, 0}, (t_double_coord){0, 0}, (t_double_coord){0, 0.5},
-		(t_int_coord){0, 0}, (t_int_coord){0, 0}, 0, NULL, 0, 0, 0};
+		(t_int_coord){SCREEN_X, SCREEN_Y}, (t_int_coord){0, 0}, 0, NULL, 0, 0, 0};
 	if (ft_parser(env, argv) == 0)
 		return (NULL);
 	return (env);
@@ -72,9 +72,9 @@ static int		ft_initmlx(t_env **env)
 {
 	if (!((*env)->mlx = mlx_init()))
 		return (0);
-	if (!((*env)->window = mlx_new_window((*env)->mlx, SCREEN_X, SCREEN_Y, "wolf3d")))
+	if (!((*env)->window = mlx_new_window((*env)->mlx, (*env)->screen.x, (*env)->screen.y, "wolf3d")))
 		return (0);
-	if (!((*env)->img = mlx_new_image((*env)->mlx, SCREEN_X, SCREEN_Y)))
+	if (!((*env)->img = mlx_new_image((*env)->mlx, (*env)->screen.x, (*env)->screen.y)))
 		return (0);
 	if (!((*env)->minimap = mlx_new_image((*env)->mlx, 200, 200)))
 		return (0);
