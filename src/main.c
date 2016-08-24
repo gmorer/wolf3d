@@ -51,18 +51,26 @@ static int			ft_key_press(int key, t_env *env)
 		env->shadow = 1;
 	else if (key == SPACE && env->shadow == 1)
 		env->shadow = 0;
+	if (key == SHIFT && env->colormod == 0)
+		env->colormod = 1;
+	else if (key == SHIFT && env->colormod == 1)
+		env->colormod = 0;
 	return (0);
 }
 
 static t_env	*ft_initenv(char *argv)
 {
 	t_env *env;
+	t_color	*colortab;
 
+	if (!(colortab = malloc(sizeof(t_color) * 9)))
+		return (NULL);
+	colortab = (t_color*){&WHITE, &RED, &BLUE, &YELLOW, &CYAN, &MAGENTA, &GREY, &MAROON, &PURPLE, &SILVER};
 	if (!(env = (t_env*)malloc(sizeof(t_env))))
 		return (NULL);
-	*env = (t_env){NULL, NULL, NULL, NULL, NULL,  clock(), (t_key){0, 0},
+	*env = (t_env){NULL, NULL, NULL, NULL, NULL, colortab, clock(), (t_key){0, 0},
 		(t_double_coord){-1, 0}, (t_double_coord){0, 0}, (t_double_coord){0, 0.5},
-		(t_int_coord){SCREEN_X, SCREEN_Y}, (t_int_coord){0, 0}, 0, NULL, 0, 0, 0};
+		(t_int_coord){SCREEN_X, SCREEN_Y}, (t_int_coord){0, 0}, 0, 0, NULL, 0, 0, 0};
 	if (ft_parser(env, argv) == 0)
 		return (NULL);
 	return (env);

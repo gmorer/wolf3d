@@ -61,6 +61,7 @@ typedef struct		s_env
 	void			*window;
 	void			*img;
 	void			*minimap;
+	t_color			*colortab;
 	clock_t			oldtime;
 	t_key			key;
 	t_double_coord	dir;
@@ -68,6 +69,7 @@ typedef struct		s_env
 	t_double_coord	plan;
 	t_int_coord		screen;
 	t_int_coord		size;
+	int				colormod;
 	int				shadow;
 	int				**map;
 	int				bpp;

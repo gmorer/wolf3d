@@ -25,7 +25,7 @@ int	ft_minimap(t_env *env)
 		count.x = 0;
 		while (count.x < 200)
 		{
-			if (env->map[count.y * env->size.y / 200 + 1][count.x * env->size.x / 200 + 1] == 1)
+			if (env->map[count.y * env->size.y / 200 + 1][count.x * env->size.x / 200 + 1] != 0)
 			{
 				color = WHITE;
 				color.a = 150;

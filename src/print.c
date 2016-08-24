@@ -13,9 +13,9 @@
 #include <stdio.h>
 #include "wolf3d.h"
 
-static	t_color	*getlen_color(int i, t_env *env, int *len)
+static	t_color	getlen_color(int i, t_env *env, int *len)
 {
-	t_color *color;
+	t_color color;
 	t_double_coord	raydir;
 	t_double_coord	dis;
 	t_double_coord	delta;
@@ -81,19 +81,24 @@ static	t_color	*getlen_color(int i, t_env *env, int *len)
 		*len = (int)(env->screen.x / temp);
 	else
 		*len = env->screen.x;
-	color = (t_color*)malloc(sizeof(t_color));
-	if(side == 0)
-		*color = MAGENTA;
-	if(side == 1)
-		*color = GREY;
-	if(side == 2)
-		*color = MAROON;
-	if(side == 3)
-		*color = PURPLE;
+	if (env->colormod == 1)
+	{
+		if(side == 0)
+			color = MAGENTA;
+		if(side == 1)
+			color = GREY;
+		if(side == 2)
+			color = MAROON;
+		if(side == 3)
+			color = PURPLE;
+	}
+	else
+		//color = env->colortab[env->map[map.x][map.y] % 9 + 1];
+		color = GREY;
 	return (color);
 }
 
-static void	ft_print_line(t_env *env, t_color *color, int len, int x)
+static void	ft_print_line(t_env *env, t_color color, int len, int x)
 {
 	t_color *temp;
 	t_int_coord coord;
@@ -109,13 +114,13 @@ static void	ft_print_line(t_env *env, t_color *color, int len, int x)
 	}
 	if(len < env->screen.y && env->shadow == 1)
 	{
-		color->r = color->r * len / env->screen.y;
-		color->g = color->g * len / env->screen.y;
-		color->b = color->b * len / env->screen.y;
+		color.r = color.r * len / env->screen.y;
+		color.g = color.g * len / env->screen.y;
+		color.b = color.b * len / env->screen.y;
 	}
 	while (coord.y <= len / 2 + env->screen.y / 2)
 	{
-		draw_pixel(env, env->img, coord, color);
+		draw_pixel(env, env->img, coord, &color);
 		coord.y++;
 	}
 	*temp = GREEN;
@@ -135,7 +140,7 @@ void	ft_forline(t_env *env)
 {
 	int		i;
 	int		len;
-	t_color	*color;
+	t_color	color;
 
 	i = 0;
 	while (i <= env->screen.x)
@@ -143,6 +148,5 @@ void	ft_forline(t_env *env)
 		color = getlen_color(i, env, &len);
 		ft_print_line(env, color, len, i);
 		i++;
-		free(color);
 	}
 }
