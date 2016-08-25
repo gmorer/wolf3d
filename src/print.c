@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 13:15:37 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/16 13:45:34 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/08/25 13:01:05 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,7 @@ static	t_color	getlen_color(int i, t_env *env, int *len)
 			color = PURPLE;
 	}
 	else
-		//color = env->colortab[env->map[map.x][map.y] % 9 + 1];
-		color = GREY;
+		color = colorchoose((env->map[map.x][map.y] - 1) % 11);
 	return (color);
 }
 

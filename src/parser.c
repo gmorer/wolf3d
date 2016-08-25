@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/08 10:56:43 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/03 13:34:26 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/08/25 17:22:04 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,36 +19,34 @@ static int	ft_strstrlen(char **str)
 	i = 0;
 	while (str[i])
 		i++;
-	return(i);
+	return (i);
 }
 
 static int	ft_remp(t_env *env, char *str)
 {
-	int		fd;
-	char	*line;
-	int		i;
-	int		y;
-	char	**temp;
+	int			fd;
+	char		*line;
+	t_int_coord i;
+	char		**temp;
 
-	i = 1;
+	i.x = 1;
 	fd = open(str, O_RDONLY);
 	while (get_next_line(fd, &line) > 0)
 	{
-		y = 0;
+		i.y = 0;
 		temp = ft_strsplit(line, ' ');
-		while (temp[y])
+		while (temp[i.y])
 		{
-			if (ft_strcmp(temp[y], "a") == 0)
+			if (ft_strcmp(temp[i.y], "a") == 0 && (env->pos.x = i.x))
 			{
-				env->pos.x = i;
-				env->pos.y = y;
-				env->map[i][y + 1] = 0;
+				env->pos.y = i.y;
+				env->map[i.x][i.y + 1] = 0;
 			}
 			else
-				env->map[i][y + 1] = ft_atoi(temp[y]);
-			y++;
+				env->map[i.x][i.y + 1] = ft_atoi(temp[i.y]);
+			i.y++;
 		}
-		i++;
+		i.x++;
 	}
 	return (1);
 }
@@ -66,7 +64,7 @@ static int	ft_check(t_env *env, char *file)
 		return (0);
 	while (get_next_line(fd, &line) > 0)
 	{
-		if(len.x < ft_strstrlen(ft_strsplit(line, ' ')))
+		if (len.x < ft_strstrlen(ft_strsplit(line, ' ')))
 			len.x = ft_strstrlen(ft_strsplit(line, ' '));
 		len.y++;
 	}
@@ -86,7 +84,8 @@ int			ft_parser(t_env *env, char *str)
 	while (i < (env->size.y + 2))
 	{
 		x = 0;
-		env->map[i] = (int*)malloc(sizeof(int) * ((unsigned long)env->size.x + 2));
+		env->map[i] = (int*)malloc(sizeof(int) *
+				((unsigned long)env->size.x + 2));
 		while (x < env->size.x + 2)
 			env->map[i][x++] = 1;
 		i++;
@@ -94,5 +93,5 @@ int			ft_parser(t_env *env, char *str)
 	ft_remp(env, str);
 	if (env->pos.x == 0 || env->pos.y == 0)
 		return (NULL);
-	return (1);	
+	return (1);
 }

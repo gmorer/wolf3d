@@ -6,21 +6,13 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/22 11:37:05 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/16 18:29:12 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/08/25 17:00:19 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 #include "input.h"
 #include <stdio.h>
-
-static int	ft_exit(t_env *env)
-{
-	(void)env;
-	mlx_destroy_image(env->mlx, env->img);
-	mlx_destroy_image(env->mlx, env->minimap);
-	exit(0);
-}
 
 static int			ft_key_unpress(int key, t_env *env)
 {
@@ -58,57 +50,38 @@ static int			ft_key_press(int key, t_env *env)
 	return (0);
 }
 
-static t_env	*ft_initenv(char *argv)
+static t_env		*ft_initenv(char *argv)
 {
-	t_env *env;
-	t_color	*colortab;
+	t_env	*env;
 
-	if (!(colortab = malloc(sizeof(t_color) * 9)))
-		return (NULL);
-	colortab = (t_color*){&WHITE, &RED, &BLUE, &YELLOW, &CYAN, &MAGENTA, &GREY, &MAROON, &PURPLE, &SILVER};
 	if (!(env = (t_env*)malloc(sizeof(t_env))))
 		return (NULL);
-	*env = (t_env){NULL, NULL, NULL, NULL, NULL, colortab, clock(), (t_key){0, 0},
-		(t_double_coord){-1, 0}, (t_double_coord){0, 0}, (t_double_coord){0, 0.5},
-		(t_int_coord){SCREEN_X, SCREEN_Y}, (t_int_coord){0, 0}, 0, 0, NULL, 0, 0, 0};
+	*env = (t_env){NULL, NULL, NULL, NULL, NULL, (t_key){0, 0},
+		(t_double_coord){-1, 0}, (t_double_coord){0, 0},
+		(t_double_coord){0, 0.5},
+		(t_int_coord){SCREEN_X, SCREEN_Y}, (t_int_coord){0, 0},
+		0, 0, NULL, 0, 0, 0};
 	if (ft_parser(env, argv) == 0)
 		return (NULL);
 	return (env);
 }
 
-static int		ft_initmlx(t_env **env)
+static int			ft_initmlx(t_env **env)
 {
 	if (!((*env)->mlx = mlx_init()))
 		return (0);
-	if (!((*env)->window = mlx_new_window((*env)->mlx, (*env)->screen.x, (*env)->screen.y, "wolf3d")))
+	if (!((*env)->window = mlx_new_window((*env)->mlx, (*env)->screen.x,
+					(*env)->screen.y, "wolf3d")))
 		return (0);
-	if (!((*env)->img = mlx_new_image((*env)->mlx, (*env)->screen.x, (*env)->screen.y)))
+	if (!((*env)->img = mlx_new_image((*env)->mlx, (*env)->screen.x,
+					(*env)->screen.y)))
 		return (0);
 	if (!((*env)->minimap = mlx_new_image((*env)->mlx, 200, 200)))
 		return (0);
 	return (1);
 }
 
-static void		printyolo(t_env *env)
-{
-	int x;
-	int y;
-
-	y = 0;
-	while (y < env->size.y + 2)
-	{
-		x = 0;
-		while (x < env->size.x + 2)
-		{
-			ft_putnbr(env->map[y][x]);
-			x++;
-		}
-		ft_putchar('\n');
-		y++;
-	}	
-}
-
-int			main(int argc, char **argv)
+int					main(int argc, char **argv)
 {
 	t_env	*env;
 
@@ -125,12 +98,11 @@ int			main(int argc, char **argv)
 		return (1);
 	if (ft_initmlx(&env) == 0)
 		return (1);
-	printyolo(env);
 	ft_putendl("test");
 	mlx_hook(env->window, 3, 2, ft_key_unpress, env);
 	mlx_hook(env->window, 2, 1, ft_key_press, env);
 	mlx_hook(env->window, 17, (1L << 17), ft_exit, env);
-	mlx_loop_hook(env->mlx, ft_image_put, env);//case 2
+	mlx_loop_hook(env->mlx, ft_image_put, env);
 	mlx_loop(env->mlx);
 	return (0);
 }

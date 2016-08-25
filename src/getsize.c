@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/16 17:55:04 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/16 18:26:44 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/08/25 17:08:23 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ static int	sizecheck(t_env **env)
 	return (0);
 }
 
-
-int		getsize(t_env **env, char *argc)
+int			getsize(t_env **env, char *argc)
 {
 	int	i;
 	int count;
@@ -60,7 +59,7 @@ int		getsize(t_env **env, char *argc)
 			count++;
 			len = i;
 		}
-		else if(ft_isdigit(argc[i]) != 1)
+		else if (ft_isdigit(argc[i]) != 1)
 			return (0);
 		i++;
 	}

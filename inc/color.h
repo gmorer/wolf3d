@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/02 11:59:02 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/16 13:56:40 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/08/25 17:22:20 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@
 # define MAROON (t_color){0, 128, 0, 0}
 # define PURPLE (t_color){0, 128, 0, 128}
 # define SILVER (t_color){0, 192, 192, 192}
-
-
 
 typedef struct		s_color
 {
