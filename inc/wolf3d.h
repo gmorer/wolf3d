@@ -54,6 +54,18 @@ typedef struct		s_block
 	t_int_coord tpto;
 }					t_block;
 
+typedef struct		s_calc
+{
+	t_color			color;
+	t_double_coord		raydir;
+	t_double_coord		dis;
+	t_double_coord		delta;
+	t_int_coord		step;
+	t_int_coord		map;
+	double			temp;
+	int			side;
+}					t_calc;
+
 typedef struct		s_env
 {
 	char			*pixel_img;
