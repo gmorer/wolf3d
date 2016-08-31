@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 11:44:38 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/25 17:22:37 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/08/31 12:15:11 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,13 @@ typedef struct		s_block
 typedef struct		s_calc
 {
 	t_color			color;
-	t_double_coord		raydir;
-	t_double_coord		dis;
-	t_double_coord		delta;
+	t_double_coord	raydir;
+	t_double_coord	dis;
+	t_double_coord	delta;
 	t_int_coord		step;
 	t_int_coord		map;
 	double			temp;
-	int			side;
+	int				side;
 }					t_calc;
 
 typedef struct		s_env
@@ -95,5 +95,6 @@ int					ft_parser(t_env *env, char *str);
 void				draw_pixel(t_env *env, void *img,
 		t_int_coord coord, t_color *color);
 void				ft_forline(t_env *env);
+void				ft_print_line(t_env *env, t_color color, int len, int x);
 int					ft_image_put(t_env *env);
 #endif

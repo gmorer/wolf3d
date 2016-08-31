@@ -6,7 +6,7 @@
 #    By: gmorer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/05/20 11:35:32 by gmorer            #+#    #+#              #
-#    Updated: 2016/08/25 13:01:19 by gmorer           ###   ########.fr        #
+#    Updated: 2016/08/31 12:05:04 by gmorer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ CFILES = main.c\
 		 move.c\
 		 minimap.c\
 		 getsize.c\
-		 color.c
+		 color.c\
+		 draw_line.c
 OFILES = $(CFILES:.c=.o)
 HFILES = inc/get_next_line.h\
 		 inc/wolf3d.h\

@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/22 11:37:05 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/25 17:00:19 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/08/31 12:13:41 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ int					main(int argc, char **argv)
 		return (1);
 	if (ft_initmlx(&env) == 0)
 		return (1);
-	ft_putendl("test");
 	mlx_hook(env->window, 3, 2, ft_key_unpress, env);
 	mlx_hook(env->window, 2, 1, ft_key_press, env);
 	mlx_hook(env->window, 17, (1L << 17), ft_exit, env);
