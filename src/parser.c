@@ -6,11 +6,21 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/08 10:56:43 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/31 12:16:24 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/08/31 12:57:54 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
+
+static void	ft_strstrfree(char **str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+		free(str[i++]);
+	free(str);
+}
 
 static int	ft_strstrlen(char **str)
 {
@@ -37,15 +47,15 @@ static int	ft_remp(t_env *env, char *str)
 		temp = ft_strsplit(line, ' ');
 		while (temp[i.y])
 		{
-			if (ft_strcmp(temp[i.y], "a") == 0 && (env->pos.x = i.x))
-			{
-				env->pos.y = i.y;
+			if (ft_strcmp(temp[i.y], "a") == 0 && (env->pos.x = i.x) &&
+					(env->pos.y = i.y))
 				env->map[i.x][i.y + 1] = 0;
-			}
 			else
 				env->map[i.x][i.y + 1] = ft_atoi(temp[i.y]);
 			i.y++;
 		}
+		free(line);
+		ft_strstrfree(temp);
 		i.x++;
 	}
 	return (1);
@@ -56,6 +66,7 @@ static int	ft_check(t_env *env, char *file)
 	int				fd;
 	char			*line;
 	t_int_coord		len;
+	char			**temp;
 
 	len.y = 0;
 	len.x = 0;
@@ -64,9 +75,12 @@ static int	ft_check(t_env *env, char *file)
 		return (0);
 	while (get_next_line(fd, &line) > 0)
 	{
-		if (len.x < ft_strstrlen(ft_strsplit(line, ' ')))
-			len.x = ft_strstrlen(ft_strsplit(line, ' '));
+		temp = ft_strsplit(line, ' ');
+		if (len.x < ft_strstrlen(temp))
+			len.x = ft_strstrlen(temp);
 		len.y++;
+		ft_strstrfree(temp);
+		free(line);
 	}
 	env->size = len;
 	return (1);
