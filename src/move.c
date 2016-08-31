@@ -56,8 +56,11 @@ int			ft_image_put(t_env *env)
 	ft_move(env);
 	n = clock() - time;
 	fps = (int)(1 / (n / CLOCKS_PER_SEC));
-	str = ft_itoa(fps);
-	mlx_string_put(env->mlx, env->window, 10, 10, 0x00FFFFFF, str);
-	free(str);
+	if (fps > 0)
+	{
+		str = ft_itoa(fps);
+		mlx_string_put(env->mlx, env->window, 10, 10, 0x00FFFFFF, str);
+		free(str);
+	}
 	return (1);
 }
