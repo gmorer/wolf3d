@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 11:44:38 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/31 12:15:11 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/09/01 17:44:41 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <unistd.h>
 # include <math.h>
 # include <time.h>
+# include "get_next_line.h"
 # include "mlx.h"
 # include "libft.h"
 # include "color.h"
@@ -87,6 +88,7 @@ typedef struct		s_env
 	int				ed;
 }					t_env;
 
+int					ft_minimap(t_env *env);
 t_color				colorchoose(int i);
 int					ft_exit(t_env *env);
 int					getsize(t_env **env, char *argc);

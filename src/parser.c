@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/08 10:56:43 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/31 12:57:54 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/09/01 16:03:10 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,6 @@ int			ft_parser(t_env *env, char *str)
 	}
 	ft_remp(env, str);
 	if (env->pos.x == 0 || env->pos.y == 0)
-		return (NULL);
+		return (0);
 	return (1);
 }

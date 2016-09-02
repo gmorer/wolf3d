@@ -6,17 +6,17 @@
 #    By: gmorer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/05/20 11:35:32 by gmorer            #+#    #+#              #
-#    Updated: 2016/08/31 12:05:04 by gmorer           ###   ########.fr        #
+#    Updated: 2016/09/02 10:45:07 by gmorer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = wolf3d
-CC = clang
+CC = gcc
 CFLAGSX =  -L/usr/include -lXext -lX11 -lm 
-CFLAGS = -Weverything -L minilibx -lmlx -framework OpenGL -framework AppKit
+CFLAGS =  -L minilibx -lmlx -framework OpenGL -framework AppKit -Wextra -Wall -Werror
 CPATH = src/
 OPATH = obj/
-HPATH = inc/ libft/ minilibx/
+HPATH = inc/ libft/ minilibx_macos/
 INC = $(addprefix -I , $(HPATH))
 CFILES = main.c\
 		 ft_print.c\
@@ -59,7 +59,7 @@ debug: $(OBJ)
 
 $(OPATH)%.o: $(CPATH)%.c $(HFILES)
 		mkdir -p $(OPATH)
-		$(CC) $(CFLAGS) $(INC) $< -c -o $@
+		$(CC)  $(INC) $< -c -o $@
 
 
 clean:

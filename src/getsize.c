@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/16 17:55:04 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/31 13:00:54 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/09/01 15:58:13 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char	*getstart(char *c, int len)
 	int		i;
 
 	i = 0;
-	result = malloc(sizeof(char) * (len + 1));
+	result = malloc(sizeof(char) * ((unsigned long)len + 1));
 	while (i < len)
 	{
 		result[i] = c[i];
@@ -45,23 +45,20 @@ static int	sizecheck(t_env **env)
 int			getsize(t_env **env, char *argc)
 {
 	int		i;
-	int		count;
 	int		len;
 	char	*temp;
 
-	count = 0;
+	len = 0;
 	i = 0;
 	while (argc[i])
 	{
-		if (argc[i] == 'x')
-			count++;
 		if (argc[i] == 'x')
 			len = i;
 		else if (ft_isdigit(argc[i]) != 1)
 			return (0);
 		i++;
 	}
-	if (count != 1)
+	if (len == 0)
 		return (0);
 	temp = getstart(argc, len);
 	(*env)->screen.x = ft_atoi(temp);
