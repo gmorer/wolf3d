@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 11:44:38 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/02 11:56:52 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/11/16 16:12:21 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 #  define KEY_S 1
 #  define KEY_D 2
 #  define SPACE 49
+#  define KEY_Z 6
+#  define KEY_x 7
 # endif
 # ifndef __APPLE__
 #  define UP 65362

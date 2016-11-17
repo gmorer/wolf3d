@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 11:44:38 by gmorer            #+#    #+#             */
-/*   Updated: 2016/09/01 17:44:41 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/11/16 16:08:59 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct		s_env
 	t_double_coord	plan;
 	t_int_coord		screen;
 	t_int_coord		size;
+	int				horizon;
 	int				colormod;
 	int				shadow;
 	int				**map;

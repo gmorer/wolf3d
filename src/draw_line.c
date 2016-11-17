@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/31 12:03:51 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/31 12:12:43 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/11/17 11:12:58 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	ft_draw_second_line(t_int_coord coord, t_env *env, int len,
 	t_color		*temp;
 
 	temp = (t_color*)malloc(sizeof(t_color));
-	while (coord.y <= len / 2 + env->screen.y / 2)
+	while (coord.y <= len / 2 + env->horizon)
 	{
 		draw_pixel(env, env->img, coord, &color);
 		coord.y++;
@@ -26,9 +26,9 @@ static void	ft_draw_second_line(t_int_coord coord, t_env *env, int len,
 	*temp = GREEN;
 	while (coord.y <= env->screen.y)
 	{
-		if (env->shadow == 1)
+		if (env->shadow == 1 && coord.y >= 0)
 		{
-			temp->g = 128 * (coord.y - env->screen.y / 2) / (env->screen.y / 2);
+			temp->g = 128 * (coord.y - env->horizon) / ((env->screen.y - env->horizon));
 		}
 		draw_pixel(env, env->img, coord, temp);
 		coord.y++;
@@ -45,7 +45,7 @@ void		ft_print_line(t_env *env, t_color color, int len, int x)
 	coord.y = 0;
 	temp = (t_color*)malloc(sizeof(t_color));
 	*temp = BLACK;
-	while (coord.y <= -len / 2 + env->screen.y / 2)
+	while (coord.y <= -len / 2 + env->horizon)
 	{
 		draw_pixel(env, env->img, coord, temp);
 		coord.y++;
