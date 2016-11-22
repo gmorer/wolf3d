@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/25 12:56:52 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/31 12:59:45 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/11/21 13:18:26 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,9 @@ int		ft_exit(t_env *env)
 	while (i < env->size.y + 2)
 		free(env->map[i++]);
 	free(env->map);
-	mlx_destroy_image(env->mlx, env->img);
-	mlx_destroy_image(env->mlx, env->minimap);
+	SDL_DestroyRenderer(env->renderer);
+	SDL_DestroyWindow(env->window);
+	SDL_Quit();
 	free(env);
 	exit(0);
 }

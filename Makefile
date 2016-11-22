@@ -6,17 +6,18 @@
 #    By: gmorer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/05/20 11:35:32 by gmorer            #+#    #+#              #
-#    Updated: 2016/09/02 10:45:07 by gmorer           ###   ########.fr        #
+#    Updated: 2016/11/22 11:58:26 by gmorer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = wolf3d
 CC = gcc
+SDL = SDL2-2.0.5
 CFLAGSX =  -L/usr/include -lXext -lX11 -lm 
-CFLAGS =  -L minilibx -lmlx -framework OpenGL -framework AppKit -Wextra -Wall -Werror
+CFLAGS = -L libsdl/lib/ -lSDL2
 CPATH = src/
 OPATH = obj/
-HPATH = inc/ libft/ minilibx_macos/
+HPATH = inc/ libft/inc/ libsdl/include/SDL2
 INC = $(addprefix -I , $(HPATH))
 CFILES = main.c\
 		 ft_print.c\
@@ -33,7 +34,8 @@ HFILES = inc/get_next_line.h\
 		 inc/wolf3d.h\
 		 inc/input.h\
 		 inc/color.h\
-		 libft/libft.h
+		 libft/inc/libft.h\
+		 libsdl/include/SDL2/SDL.h
 OBJ = $(addprefix $(OPATH), $(OFILES))
 
 .PHONY: all clean fclean re
@@ -42,29 +44,25 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 		make -C libft
-		make -C minilibx_macos
-		$(CC) $(CFLAGS) $(OBJ) libft/libft.a minilibx_macos/libmlx.a -o $(NAME)
+		$(CC) $(CFLAGS) $(OBJ) libft/libft.a -o $(NAME)
 
 linux : $(OBJ)
 		make -C libft
-		make -C minilibx
-		$(CC) $(CFLAGSX) $(OBJ) libft/libft.a minilibx/libmlx.a -o $(NAME)
+		$(CC) $(CFLAGSX) $(OBJ) libft/libft.a  -o $(NAME)
 
+install :
+		./install_sdl.sh
 
 debug: $(OBJ)
 		make -C libft
-		make -C minilibx
-		make -C minilibx_macos
 		$(CC) -g $(CFLAGS) $(OBJ) libft/libft.a -o $(NAME)
 
 $(OPATH)%.o: $(CPATH)%.c $(HFILES)
 		mkdir -p $(OPATH)
-		$(CC)  $(INC) $< -c -o $@
+		$(CC) $(INC) $< -c -o $@
 
 
 clean:
-		make -C minilibx clean
-		make -C minilibx_macos clean
 		make -C libft clean
 		rm -f $(OBJ)
 

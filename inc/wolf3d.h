@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 11:44:38 by gmorer            #+#    #+#             */
-/*   Updated: 2016/11/16 16:08:59 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/11/22 11:51:09 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <unistd.h>
 # include <math.h>
 # include <time.h>
+# include "SDL.h"
 # include "get_next_line.h"
 # include "mlx.h"
 # include "libft.h"
@@ -69,11 +70,9 @@ typedef struct		s_calc
 
 typedef struct		s_env
 {
-	char			*pixel_img;
-	void			*mlx;
-	void			*window;
-	void			*img;
-	void			*minimap;
+	SDL_Window		*window;
+	SDL_Renderer	*renderer;
+//	TTF_Font		*font;
 	t_key			key;
 	t_double_coord	dir;
 	t_double_coord	pos;
@@ -84,9 +83,7 @@ typedef struct		s_env
 	int				colormod;
 	int				shadow;
 	int				**map;
-	int				bpp;
-	int				s_line;
-	int				ed;
+	int				mouse;
 }					t_env;
 
 int					ft_minimap(t_env *env);
@@ -95,8 +92,7 @@ int					ft_exit(t_env *env);
 int					getsize(t_env **env, char *argc);
 int					**ft_read(char *argv, t_env *env);
 int					ft_parser(t_env *env, char *str);
-void				draw_pixel(t_env *env, void *img,
-		t_int_coord coord, t_color *color);
+void				draw_pixel(t_env *env, t_int_coord coord, t_color *color);
 void				ft_forline(t_env *env);
 void				ft_print_line(t_env *env, t_color color, int len, int x);
 int					ft_image_put(t_env *env);

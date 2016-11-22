@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 13:15:37 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/31 12:06:30 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/11/22 11:31:21 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ static t_color	getlen_colorbisbis(t_calc c, t_env *env, int *len)
 		c.temp = (c.map.y - env->pos.y + (1 - c.step.y) / 2) / c.raydir.y;
 	else
 		c.temp = (c.map.x - env->pos.x + (1 - c.step.x) / 2) / c.raydir.x;
-	if (c.temp > 1)
-		*len = (int)(env->screen.x / c.temp);
-	else
-		*len = env->screen.x;
+	*len = (int)(env->screen.x / c.temp);
 	if (env->colormod == 1)
 	{
 		if (c.side == 0)
@@ -98,12 +95,39 @@ void			ft_forline(t_env *env)
 	int		i;
 	int		len;
 	t_color	color;
+	int		tmp;
 
 	i = 0;
+	if (env->shadow == 1)
+	{
+		tmp = env->horizon;
+		while (tmp <= env->screen.y)
+		{
+			SDL_SetRenderDrawColor(env->renderer, 0, 128 * (tmp - env->horizon)
+					/ ((env->screen.y - env->horizon)), 0, 255);
+			SDL_RenderDrawLine(env->renderer, 0, tmp, env->screen.x, tmp);
+			tmp++;
+		}
+	}
 	while (i <= env->screen.x)
 	{
 		color = getlen_color(i, env, &len);
-		ft_print_line(env, color, len, i);
+		if (len < env->screen.y && env->shadow == 1)
+		{
+			color.r = color.r * len / env->screen.y;
+			color.g = color.g * len / env->screen.y;
+			color.b = color.b * len / env->screen.y;
+		}
+		SDL_SetRenderDrawColor(env->renderer, 0, 0, 0, 255);
+		SDL_RenderDrawLine(env->renderer, i, 0, i,  (-len / 2 + env->horizon));
+		SDL_SetRenderDrawColor(env->renderer, color.r, color.g, color.b, 255);
+		SDL_RenderDrawLine(env->renderer, i, (-len / 2 + env->horizon), i, (len / 2 + env->horizon));
+		if (env->shadow == 0)
+		{
+			SDL_SetRenderDrawColor(env->renderer, 0, 128, 0, 255);
+			SDL_RenderDrawLine(env->renderer, i, (len / 2 + env->horizon), i, env->screen.y);
+		}
+		//ft_print_line(env, color, len, i);
 		i++;
 	}
 }

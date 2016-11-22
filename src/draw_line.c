@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/31 12:03:51 by gmorer            #+#    #+#             */
-/*   Updated: 2016/11/17 11:12:58 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/11/21 17:05:06 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	ft_draw_second_line(t_int_coord coord, t_env *env, int len,
 	temp = (t_color*)malloc(sizeof(t_color));
 	while (coord.y <= len / 2 + env->horizon)
 	{
-		draw_pixel(env, env->img, coord, &color);
+		draw_pixel(env,  coord, &color);
 		coord.y++;
 	}
 	*temp = GREEN;
@@ -30,7 +30,7 @@ static void	ft_draw_second_line(t_int_coord coord, t_env *env, int len,
 		{
 			temp->g = 128 * (coord.y - env->horizon) / ((env->screen.y - env->horizon));
 		}
-		draw_pixel(env, env->img, coord, temp);
+		draw_pixel(env, coord, temp);
 		coord.y++;
 	}
 	free(temp);
@@ -47,7 +47,7 @@ void		ft_print_line(t_env *env, t_color color, int len, int x)
 	*temp = BLACK;
 	while (coord.y <= -len / 2 + env->horizon)
 	{
-		draw_pixel(env, env->img, coord, temp);
+		draw_pixel(env, coord, temp);
 		coord.y++;
 	}
 	if (len < env->screen.y && env->shadow == 1)

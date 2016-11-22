@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/06 18:02:31 by gmorer            #+#    #+#             */
-/*   Updated: 2016/08/25 17:11:53 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/11/22 12:02:54 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,10 @@ static int		outside_window(t_int_coord coord, t_env *env)
 		return (0);
 }
 
-void			draw_pixel(t_env *e, void *img, t_int_coord cor, t_color *color)
+void			draw_pixel(t_env *e, t_int_coord cor, t_color *color)
 {
 	if (outside_window(cor, e) == 0)
 		return ;
-	e->pixel_img = mlx_get_data_addr(img, &(e->bpp), &(e->s_line), &(e->ed));
-	e->pixel_img[cor.x * e->bpp / 8 + 0 + cor.y * e->s_line] = (char)color->b;
-	e->pixel_img[cor.x * e->bpp / 8 + 1 + cor.y * e->s_line] = (char)color->g;
-	e->pixel_img[cor.x * e->bpp / 8 + 2 + cor.y * e->s_line] = (char)color->r;
-	e->pixel_img[cor.x * e->bpp / 8 + 3 + cor.y * e->s_line] = (char)color->a;
+	SDL_SetRenderDrawColor(e->renderer, color->r, color->g, color->b, color->a);
+	SDL_RenderDrawPoint(e->renderer, cor.x, cor.y);
 }
