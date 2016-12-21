@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/22 11:37:05 by gmorer            #+#    #+#             */
-/*   Updated: 2016/11/22 11:53:47 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/12/21 14:45:42 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,20 +75,15 @@ static t_env		*ft_initenv(char *argv)
 		return (NULL);
 	return (env);
 }
-/*
-   static int			ft_mouse(int x, int y, t_env *env)
-   {
-   if (y > 0 && y < env->screen.y)
-   env->horizon = ft_abs(y - env->screen.y);
-   return (0);
-   }*/
 
 static int			ft_initsdl(t_env **env)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
-	(*env)->window = SDL_CreateWindow("wolf3d", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, (*env)->screen.x, (*env)->screen.y, SDL_WINDOW_RESIZABLE);
-	(*env)->renderer = SDL_CreateRenderer((*env)->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	//(*env)->font = TTF_OpenFont("Sans.ttf", 24);
+	(*env)->window = SDL_CreateWindow("wolf3d",
+			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+			(*env)->screen.x, (*env)->screen.y, SDL_WINDOW_RESIZABLE);
+	(*env)->renderer = SDL_CreateRenderer((*env)->window, -1,
+			SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	SDL_SetRelativeMouseMode(1);
 	SDL_SetRenderDrawBlendMode((*env)->renderer, SDL_BLENDMODE_BLEND);
 	return (1);
@@ -99,24 +94,27 @@ static int			ft_mouse(SDL_Event *event, t_env *env)
 	double	tmp;
 
 	tmp = 0;
-	if (event->motion.yrel < 0 && env->horizon + event->motion.yrel< env->screen.y)
+	if (event->motion.yrel < 0 && env->horizon -
+			event->motion.yrel < env->screen.y)
 		env->horizon -= event->motion.yrel;
-	if (event->motion.yrel > 0 && env->horizon + event->motion.yrel > 0)
+	if (event->motion.yrel > 0 && env->horizon - event->motion.yrel > 0)
 		env->horizon -= event->motion.yrel;
-	/////////////////////////
 	tmp = env->dir.x;
-	env->dir.x = env->dir.x * cos(event->motion.xrel * -0.001) - env->dir.y * sin(event->motion.xrel * -0.001);
-	env->dir.y = tmp * sin(event->motion.xrel * -0.001) + env->dir.y * cos(event->motion.xrel * -0.001);
+	env->dir.x = env->dir.x * cos(event->motion.xrel * -0.001) -
+		env->dir.y * sin(event->motion.xrel * -0.001);
+	env->dir.y = tmp * sin(event->motion.xrel * -0.001) + env->dir.y *
+		cos(event->motion.xrel * -0.001);
 	tmp = env->plan.x;
-	env->plan.x = env->plan.x * cos(event->motion.xrel * -0.001) - env->plan.y * sin(event->motion.xrel * -0.001);
-	env->plan.y = tmp * sin(event->motion.xrel * -0.001) + env->plan.y * cos(event->motion.xrel * -0.001);
-	/////////////////////////
+	env->plan.x = env->plan.x * cos(event->motion.xrel * -0.001) -
+		env->plan.y * sin(event->motion.xrel * -0.001);
+	env->plan.y = tmp * sin(event->motion.xrel * -0.001) + env->plan.y *
+		cos(event->motion.xrel * -0.001);
 	return (1);
 }
 
 int					main(int argc, char **argv)
 {
-	t_env	*env;
+	t_env		*env;
 	SDL_Event	event;
 
 	if (argc < 2 || argc > 3)
@@ -142,16 +140,16 @@ int					main(int argc, char **argv)
 				ft_key_press(event.key.keysym.sym, env);
 			if (event.type == SDL_KEYUP)
 				ft_key_unpress(event.key.keysym.sym, env);
-			if (event.type == SDL_WINDOWEVENT)
-				if (event.window.event == SDL_WINDOWEVENT_RESIZED)
-				{
-					env->screen.x = event.window.data1;
-					env->screen.y = event.window.data2;
-				}
+			if (event.type == SDL_WINDOWEVENT && event.window.event
+					== SDL_WINDOWEVENT_RESIZED)
+			{
+				env->screen.x = event.window.data1;
+				env->screen.y = event.window.data2;
+			}
 			if (event.type == SDL_MOUSEMOTION)
 				ft_mouse(&event, env);
 		}
-		SDL_SetRenderDrawColor(env->renderer, 0 , 0, 0, 0);
+		SDL_SetRenderDrawColor(env->renderer, 0, 0, 0, 0);
 		SDL_RenderClear(env->renderer);
 		ft_image_put(env);
 		SDL_RenderPresent(env->renderer);

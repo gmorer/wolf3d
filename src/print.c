@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 13:15:37 by gmorer            #+#    #+#             */
-/*   Updated: 2016/11/22 11:31:21 by gmorer           ###   ########.fr       */
+/*   Updated: 2016/12/07 11:30:44 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,15 +119,16 @@ void			ft_forline(t_env *env)
 			color.b = color.b * len / env->screen.y;
 		}
 		SDL_SetRenderDrawColor(env->renderer, 0, 0, 0, 255);
-		SDL_RenderDrawLine(env->renderer, i, 0, i,  (-len / 2 + env->horizon));
+		SDL_RenderDrawLine(env->renderer, i, 0, i, (-len / 2 + env->horizon));
 		SDL_SetRenderDrawColor(env->renderer, color.r, color.g, color.b, 255);
-		SDL_RenderDrawLine(env->renderer, i, (-len / 2 + env->horizon), i, (len / 2 + env->horizon));
+		SDL_RenderDrawLine(env->renderer, i, (-len / 2 + env->horizon), i,
+				(len / 2 + env->horizon));
 		if (env->shadow == 0)
 		{
 			SDL_SetRenderDrawColor(env->renderer, 0, 128, 0, 255);
-			SDL_RenderDrawLine(env->renderer, i, (len / 2 + env->horizon), i, env->screen.y);
+			SDL_RenderDrawLine(env->renderer, i, (len / 2 + env->horizon), i,
+					env->screen.y);
 		}
-		//ft_print_line(env, color, len, i);
 		i++;
 	}
 }
