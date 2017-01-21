@@ -23,7 +23,6 @@
 # include <time.h>
 # include "SDL.h"
 # include "get_next_line.h"
-# include "mlx.h"
 # include "libft.h"
 # include "color.h"
 

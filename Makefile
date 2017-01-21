@@ -13,8 +13,8 @@
 NAME = wolf3d
 CC = gcc
 SDL = SDL2-2.0.5
-CFLAGSX =  -L/usr/include -lXext -lX11 -lm 
-CFLAGS = -L libsdl/lib/ -lSDL2
+CFLAGSX =  -L/usr/include -lSDL2 -lm 
+CFLAGS = -L libsdl/lib/ -lSDL2 -lm
 CPATH = src/
 OPATH = obj/
 HPATH = inc/ libft/inc/ libsdl/include/SDL2
@@ -44,11 +44,11 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 		make -C libft
-		$(CC) $(CFLAGS) $(OBJ) libft/libft.a -o $(NAME)
+		$(CC) $(OBJ) libft/libft.a $(CFLAGS) -o $(NAME)
 
 linux : $(OBJ)
 		make -C libft
-		$(CC) $(CFLAGSX) $(OBJ) libft/libft.a  -o $(NAME)
+		$(CC) $(OBJ) libft/libft.a $(CFLAGSX) -o $(NAME)
 
 install :
 		./install_sdl.sh
