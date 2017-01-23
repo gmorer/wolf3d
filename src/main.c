@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/22 11:37:05 by gmorer            #+#    #+#             */
-/*   Updated: 2016/12/21 14:45:42 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/01/23 10:11:14 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,11 @@ int					main(int argc, char **argv)
 	t_env		*env;
 	SDL_Event	event;
 
-	if (argc < 2 || argc > 3)
+	if (argc != 2)
+	{
+		ft_putendl_fd("usage: wolf3d [map]", STDERR_FILENO);
 		return (0);
+	}
 	if (!(env = ft_initenv(argv[1])))
 		ft_putendl("parsing error");
 	if (!env)
