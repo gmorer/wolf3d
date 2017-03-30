@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 13:15:37 by gmorer            #+#    #+#             */
-/*   Updated: 2016/12/07 11:30:44 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/03/30 02:14:34 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,20 @@
 
 static t_color	getlen_colorbisbis(t_calc c, t_env *env, int *len)
 {
+	double lol;
+
 	if (c.side == 2 || c.side == 3)
 		c.temp = (c.map.y - env->pos.y + (1 - c.step.y) / 2) / c.raydir.y;
 	else
 		c.temp = (c.map.x - env->pos.x + (1 - c.step.x) / 2) / c.raydir.x;
 	*len = (int)(env->screen.x / c.temp);
+	lol = (c.side >=2 ? env->pos.x + c.temp * c.raydir.x : env->pos.y + c.temp * c.raydir.y) * 10;
+	//lol -= floor((lol));
+	lol = lol / 10;
+	lol -= (int)lol;
+	lol = fabs(1 - 2 * lol);
+	printf("%f\n", lol);
+	*len += lol * 10;
 	if (env->colormod == 1)
 	{
 		if (c.side == 0)
@@ -31,7 +40,7 @@ static t_color	getlen_colorbisbis(t_calc c, t_env *env, int *len)
 			c.color = PURPLE;
 	}
 	else
-		c.color = colorchoose((env->map[c.map.x][c.map.y] - 1) % 11);
+		c.color = colorchoose((env->map[c.map.x][c.map.y] - 1) % TEXTURE_MAX);
 	return (c.color);
 }
 
