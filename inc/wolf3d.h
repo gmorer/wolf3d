@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 11:44:38 by gmorer            #+#    #+#             */
-/*   Updated: 2017/03/30 05:10:17 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/03/30 07:56:06 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ typedef struct		s_env
 
 void				load_texture(t_env *env);
 int					ft_minimap(t_env *env);
-t_color				colorchoose(int i);
+t_color				colorchoose(int i, t_env *env);
 int					ft_exit(t_env *env);
 int					getsize(t_env **env, char *argc);
 int					**ft_read(char *argv, t_env *env);

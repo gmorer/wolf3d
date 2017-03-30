@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/25 17:08:43 by gmorer            #+#    #+#             */
-/*   Updated: 2016/12/07 11:23:18 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/03/30 07:57:51 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int			ft_minimap(t_env *env)
 					env->size.x / 200 + 1] != 0)
 				color = (env->colormod == 1 ? WHITE : colorchoose(
 							(env->map[count.y * env->size.y / 200 + 1]
-								[count.x * env->size.x / 200 + 1] - 1) % 11));
+								[count.x * env->size.x / 200 + 1] - 1) % 11, env));
 			else
 				color = BLACK;
 			color.a = 150;

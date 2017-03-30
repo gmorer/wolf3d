@@ -6,12 +6,12 @@
 #    By: gmorer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/05/20 11:35:32 by gmorer            #+#    #+#              #
-#    Updated: 2017/03/30 05:10:05 by gmorer           ###   ########.fr        #
+#    Updated: 2017/03/30 07:58:22 by gmorer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = wolf3d
-CC = gcc -v
+CC = gcc
 SDL = SDL2-2.0.5
 CFLAGSX =  -L/usr/include -lSDL2 -lm -fsanitize=address
 CFLAGS = -L libsdl/lib/ -lSDL2 -lm -fsanitize=address

@@ -6,22 +6,22 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/25 12:56:52 by gmorer            #+#    #+#             */
-/*   Updated: 2016/11/21 13:18:26 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/03/30 07:55:32 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-t_color	colorchoose(int i)
+t_color	colorchoose(int i, t_env *env)
 {
 	if (i == 0)
-		return (WHITE);
+		return (env->colormod == 0 ? MAGENTA : WHITE);
 	if (i == 1)
-		return (RED);
+		return (env->colormod == 0 ? GREY : RED);
 	if (i == 2)
-		return (BLUE);
+		return (env->colormod == 0 ? MAROON : BLUE);
 	if (i == 3)
-		return (YELLOW);
+		return (env->colormod == 0 ? PURPLE : YELLOW);
 	if (i == 4)
 		return (CYAN);
 	if (i == 5)
