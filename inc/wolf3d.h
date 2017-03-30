@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 11:44:38 by gmorer            #+#    #+#             */
-/*   Updated: 2016/11/22 11:51:09 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/03/30 05:10:17 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define WOLF3D_H
 # define SCREEN_X 1440
 # define SCREEN_Y 940
+# define TEXTURE_MAX 10
 # include <fcntl.h>
 # include <stdlib.h>
 # include <sys/types.h>
@@ -37,6 +38,13 @@ typedef struct		s_int_coord
 	int	x;
 	int	y;
 }					t_int_coord;
+
+typedef	struct		s_texture
+{
+	t_int_coord	coord;
+	SDL_Texture	*texture;
+}					t_texture;
+
 
 typedef struct		s_key
 {
@@ -83,8 +91,10 @@ typedef struct		s_env
 	int				shadow;
 	int				**map;
 	int				mouse;
+	t_texture		*texture[TEXTURE_MAX];
 }					t_env;
 
+void				load_texture(t_env *env);
 int					ft_minimap(t_env *env);
 t_color				colorchoose(int i);
 int					ft_exit(t_env *env);

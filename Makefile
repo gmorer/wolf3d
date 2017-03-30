@@ -6,15 +6,15 @@
 #    By: gmorer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/05/20 11:35:32 by gmorer            #+#    #+#              #
-#    Updated: 2016/11/22 11:58:26 by gmorer           ###   ########.fr        #
+#    Updated: 2017/03/30 05:10:05 by gmorer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = wolf3d
-CC = gcc
+CC = gcc -v
 SDL = SDL2-2.0.5
-CFLAGSX =  -L/usr/include -lSDL2 -lm 
-CFLAGS = -L libsdl/lib/ -lSDL2 -lm
+CFLAGSX =  -L/usr/include -lSDL2 -lm -fsanitize=address
+CFLAGS = -L libsdl/lib/ -lSDL2 -lm -fsanitize=address
 CPATH = src/
 OPATH = obj/
 HPATH = inc/ libft/inc/ libsdl/include/SDL2
@@ -28,7 +28,8 @@ CFILES = main.c\
 		 minimap.c\
 		 getsize.c\
 		 color.c\
-		 draw_line.c
+		 draw_line.c\
+		 texture.c
 OFILES = $(CFILES:.c=.o)
 HFILES = inc/get_next_line.h\
 		 inc/wolf3d.h\
@@ -44,11 +45,11 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 		make -C libft
-		$(CC) $(OBJ) libft/libft.a $(CFLAGS) -o $(NAME)
+		$(CC) $(OBJ) libft/libft.a  $(CFLAGS) -o $(NAME)
 
 linux : $(OBJ)
 		make -C libft
-		$(CC) $(OBJ) libft/libft.a $(CFLAGSX) -o $(NAME)
+		$(CC) $(OBJ) libft/libft.a  $(CFLAGSX) -o $(NAME)
 
 install :
 		./install_sdl.sh
@@ -59,7 +60,7 @@ debug: $(OBJ)
 
 $(OPATH)%.o: $(CPATH)%.c $(HFILES)
 		mkdir -p $(OPATH)
-		$(CC) $(INC) $< -c -o $@
+		$(CC) -g  $(INC) $< -c -o $@
 
 
 clean:

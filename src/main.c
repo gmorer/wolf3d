@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/22 11:37:05 by gmorer            #+#    #+#             */
-/*   Updated: 2017/01/23 10:11:14 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/03/30 05:38:37 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ static int			ft_key_press(int key, t_env *env)
 		env->shadow = 1;
 	else if (key == SDLK_SPACE && env->shadow == 1)
 		env->shadow = 0;
-	if (key == SDLK_LSHIFT && env->colormod == 0)
-		env->colormod = 1;
-	else if (key == SDLK_LSHIFT && env->colormod == 1)
+	if (key == SDLK_LSHIFT && env->colormod != 2)
+		env->colormod++;
+	else if (key == SDLK_LSHIFT && env->colormod == 2)
 		env->colormod = 0;
 	if (key == SDLK_RSHIFT && env->mouse == 1)
 	{
@@ -133,6 +133,7 @@ int					main(int argc, char **argv)
 		return (1);
 	if (ft_initsdl(&env) == 0)
 		return (1);
+	load_texture(env);
 	while (42)
 	{
 		while (SDL_PollEvent(&event))

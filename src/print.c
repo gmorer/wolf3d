@@ -6,13 +6,13 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 13:15:37 by gmorer            #+#    #+#             */
-/*   Updated: 2017/03/30 02:14:34 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/03/30 05:51:05 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-static t_color	getlen_colorbisbis(t_calc c, t_env *env, int *len)
+static t_color	getlen_colorbisbis(t_calc c, t_env *env, int *len, double *place)
 {
 	double lol;
 
@@ -22,12 +22,9 @@ static t_color	getlen_colorbisbis(t_calc c, t_env *env, int *len)
 		c.temp = (c.map.x - env->pos.x + (1 - c.step.x) / 2) / c.raydir.x;
 	*len = (int)(env->screen.x / c.temp);
 	lol = (c.side >=2 ? env->pos.x + c.temp * c.raydir.x : env->pos.y + c.temp * c.raydir.y) * 10;
-	//lol -= floor((lol));
 	lol = lol / 10;
 	lol -= (int)lol;
-	lol = fabs(1 - 2 * lol);
-	printf("%f\n", lol);
-	*len += lol * 10;
+	*place = lol;
 	if (env->colormod == 1)
 	{
 		if (c.side == 0)
@@ -44,7 +41,7 @@ static t_color	getlen_colorbisbis(t_calc c, t_env *env, int *len)
 	return (c.color);
 }
 
-static t_color	getlen_colorbis(t_calc c, t_env *env, int *len)
+static t_color	getlen_colorbis(t_calc c, t_env *env, int *len, double *place)
 {
 	while (1)
 	{
@@ -69,10 +66,10 @@ static t_color	getlen_colorbis(t_calc c, t_env *env, int *len)
 		if (env->map[c.map.x][c.map.y] > 0)
 			break ;
 	}
-	return (getlen_colorbisbis(c, env, len));
+	return (getlen_colorbisbis(c, env, len, place));
 }
 
-static	t_color	getlen_color(int i, t_env *env, int *len)
+static	t_color	getlen_color(int i, t_env *env, int *len, double *place)
 {
 	t_calc		c;
 
@@ -96,7 +93,18 @@ static	t_color	getlen_color(int i, t_env *env, int *len)
 		c.step.y = 1;
 		c.dis.y = (c.map.y + 1.0 - env->pos.y) * c.delta.y;
 	}
-	return (getlen_colorbis(c, env, len));
+	return (getlen_colorbis(c, env, len, place));
+}
+
+void			draw_texture(int i, int len, double place, int texture_num, t_env *env)
+{
+	double	real_place;
+
+	real_place = env->texture[texture_num]->coord.x * place;
+	SDL_RenderCopy(env->renderer, env->texture[texture_num]->texture,
+			&(SDL_Rect){real_place, 0, 1, env->texture[texture_num]->coord.y},
+			&(SDL_Rect){i, (-len / 2 + env->horizon), 1, len});
+
 }
 
 void			ft_forline(t_env *env)
@@ -105,38 +113,37 @@ void			ft_forline(t_env *env)
 	int		len;
 	t_color	color;
 	int		tmp;
+	double	place;
 
 	i = 0;
-	if (env->shadow == 1)
+	tmp = env->horizon;
+	while (tmp <= env->screen.y)
 	{
-		tmp = env->horizon;
-		while (tmp <= env->screen.y)
-		{
-			SDL_SetRenderDrawColor(env->renderer, 0, 128 * (tmp - env->horizon)
-					/ ((env->screen.y - env->horizon)), 0, 255);
-			SDL_RenderDrawLine(env->renderer, 0, tmp, env->screen.x, tmp);
-			tmp++;
-		}
+		SDL_SetRenderDrawColor(env->renderer, 0, env->shadow == 1 ? (128 * (tmp - env->horizon)
+					/ ((env->screen.y - env->horizon))) : 128 , 0, 255);
+		SDL_RenderDrawLine(env->renderer, 0, tmp, env->screen.x, tmp);
+		tmp++;
 	}
 	while (i <= env->screen.x)
 	{
-		color = getlen_color(i, env, &len);
-		if (len < env->screen.y && env->shadow == 1)
-		{
-			color.r = color.r * len / env->screen.y;
-			color.g = color.g * len / env->screen.y;
-			color.b = color.b * len / env->screen.y;
-		}
+		color = getlen_color(i, env, &len, &place);
 		SDL_SetRenderDrawColor(env->renderer, 0, 0, 0, 255);
 		SDL_RenderDrawLine(env->renderer, i, 0, i, (-len / 2 + env->horizon));
-		SDL_SetRenderDrawColor(env->renderer, color.r, color.g, color.b, 255);
-		SDL_RenderDrawLine(env->renderer, i, (-len / 2 + env->horizon), i,
-				(len / 2 + env->horizon));
-		if (env->shadow == 0)
+		if (env->colormod != 2)
 		{
-			SDL_SetRenderDrawColor(env->renderer, 0, 128, 0, 255);
-			SDL_RenderDrawLine(env->renderer, i, (len / 2 + env->horizon), i,
-					env->screen.y);
+			if (len < env->screen.y && env->shadow == 1)
+			{
+				color.r = color.r * len / env->screen.y;
+				color.g = color.g * len / env->screen.y;
+				color.b = color.b * len / env->screen.y;
+			}
+			SDL_SetRenderDrawColor(env->renderer, color.r, color.g, color.b, 255);
+			SDL_RenderDrawLine(env->renderer, i, (-len / 2 + env->horizon), i,
+					(len / 2 + env->horizon));
+		}
+		else
+		{
+			draw_texture(i, len, place, 5, env);
 		}
 		i++;
 	}
