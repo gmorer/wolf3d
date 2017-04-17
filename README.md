@@ -15,13 +15,13 @@ make linux
 
 ```sh
 make install
-make linux
+make
 ```
 
 ## Installation
 
 ```sh
-git clone https://github.com/gmorer/SDL2.git && cd SDL2 && make install && make
+git clone https://github.com/gmorer/wolf3d.git && cd wolf3d && make install && make
 ```
 
 ## Usage
