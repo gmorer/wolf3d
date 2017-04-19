@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 13:15:37 by gmorer            #+#    #+#             */
-/*   Updated: 2017/04/19 17:52:08 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/04/19 18:03:56 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,13 @@ void			draw_texture(int i, int len, double place, t_env *env)
 {
 	double	real_place;
 	int		temp;
+	int		opt;
 
+	opt = 0;
 	real_place = env->texture[(int)place]->coord.x * (place - (int)place);
 	SDL_RenderCopy(env->renderer, env->texture[(int)place]->texture,
-			&(SDL_Rect){real_place, 0, 1, env->texture[(int)place]->coord.y},
-			&(SDL_Rect){i, (-len / 2 + env->horizon), 2, len});
+			&(SDL_Rect){real_place, OPT - 1, 1, env->texture[(int)place]->coord.y},
+			&(SDL_Rect){i, (-len / 2 + env->horizon), OPT, len});
 	if (env->shadow == 1)
 	{
 		if (len > env->screen.y)
@@ -106,10 +108,12 @@ void			draw_texture(int i, int len, double place, t_env *env)
 			temp = temp - 255;
 		}
 		SDL_SetRenderDrawColor(env->renderer, 0, 0, 0, temp);
-		SDL_RenderDrawLine(env->renderer, i, (-len / 2 + env->horizon), i,
-					(len / 2 + env->horizon));
-		SDL_RenderDrawLine(env->renderer, i + 1, (-len / 2 + env->horizon), i + 1,
-					(len / 2 + env->horizon));
+		while (opt < OPT)
+		{
+			SDL_RenderDrawLine(env->renderer, i + opt, (-len / 2 + env->horizon), i + opt,
+						(len / 2 + env->horizon));
+			opt++;
+		}
 	}
 
 }
@@ -153,6 +157,6 @@ void			ft_forline(t_env *env)
 		{
 			draw_texture(i, len, tmp + place, env);
 		}
-		i = env->colormod == 2 ? i + 2 : i + 1;
+		i = env->colormod == 2 ? i + OPT : i + 1;
 	}
 }

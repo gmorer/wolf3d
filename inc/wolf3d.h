@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 11:44:38 by gmorer            #+#    #+#             */
-/*   Updated: 2017/03/30 07:56:06 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/04/19 18:07:40 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define SCREEN_X 1440
 # define SCREEN_Y 940
 # define TEXTURE_MAX 10
+# define OPT 2
 # include <fcntl.h>
 # include <stdlib.h>
 # include <sys/types.h>
