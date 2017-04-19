@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 13:15:37 by gmorer            #+#    #+#             */
-/*   Updated: 2017/03/30 08:41:41 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/04/19 17:52:08 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void			draw_texture(int i, int len, double place, t_env *env)
 	real_place = env->texture[(int)place]->coord.x * (place - (int)place);
 	SDL_RenderCopy(env->renderer, env->texture[(int)place]->texture,
 			&(SDL_Rect){real_place, 0, 1, env->texture[(int)place]->coord.y},
-			&(SDL_Rect){i, (-len / 2 + env->horizon), 1, len});
+			&(SDL_Rect){i, (-len / 2 + env->horizon), 2, len});
 	if (env->shadow == 1)
 	{
 		if (len > env->screen.y)
@@ -107,6 +107,8 @@ void			draw_texture(int i, int len, double place, t_env *env)
 		}
 		SDL_SetRenderDrawColor(env->renderer, 0, 0, 0, temp);
 		SDL_RenderDrawLine(env->renderer, i, (-len / 2 + env->horizon), i,
+					(len / 2 + env->horizon));
+		SDL_RenderDrawLine(env->renderer, i + 1, (-len / 2 + env->horizon), i + 1,
 					(len / 2 + env->horizon));
 	}
 
@@ -151,6 +153,6 @@ void			ft_forline(t_env *env)
 		{
 			draw_texture(i, len, tmp + place, env);
 		}
-		i++;
+		i = env->colormod == 2 ? i + 2 : i + 1;
 	}
 }
