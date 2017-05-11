@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 11:44:38 by gmorer            #+#    #+#             */
-/*   Updated: 2017/04/19 18:07:40 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/05/11 13:41:22 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # define SCREEN_X 1440
 # define SCREEN_Y 940
 # define TEXTURE_MAX 10
-# define OPT 2
+# define OPT 1
 # include <fcntl.h>
 # include <stdlib.h>
 # include <sys/types.h>
@@ -24,6 +24,7 @@
 # include <math.h>
 # include <time.h>
 # include "SDL.h"
+# include "SDL_ttf.h"
 # include "get_next_line.h"
 # include "libft.h"
 # include "color.h"
@@ -80,7 +81,7 @@ typedef struct		s_env
 {
 	SDL_Window		*window;
 	SDL_Renderer	*renderer;
-//	TTF_Font		*font;
+	TTF_Font		*font;
 	t_key			key;
 	t_double_coord	dir;
 	t_double_coord	pos;

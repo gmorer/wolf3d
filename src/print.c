@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 13:15:37 by gmorer            #+#    #+#             */
-/*   Updated: 2017/04/19 18:03:56 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/05/11 11:05:59 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ static int	getlen_colorbisbis(t_calc c, t_env *env, int *len, double *place)
 	else
 		c.temp = (c.map.x - env->pos.x + (1 - c.step.x) / 2) / c.raydir.x;
 	*len = (int)(env->screen.x / c.temp);
-	lol = (c.side >=2 ? env->pos.x + c.temp * c.raydir.x : env->pos.y + c.temp * c.raydir.y) * 10;
+	lol = (c.side >=2 ? env->pos.x + c.temp * c.raydir.x : env->pos.y + c.temp
+			* c.raydir.y) * 10;
 	lol = lol / 10;
 	lol -= (int)lol;
 	*place = lol;

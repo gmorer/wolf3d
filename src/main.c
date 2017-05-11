@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/22 11:37:05 by gmorer            #+#    #+#             */
-/*   Updated: 2017/03/30 05:38:37 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/05/11 14:09:20 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static t_env		*ft_initenv(char *argv)
 
 	if (!(env = (t_env*)malloc(sizeof(t_env))))
 		return (NULL);
-	*env = (t_env){NULL, NULL, (t_key){0, 0},
+	*env = (t_env){NULL, NULL, NULL, (t_key){0, 0},
 		(t_double_coord){-1, 0}, (t_double_coord){0, 0},
 		(t_double_coord){0, 0.5},
 		(t_int_coord){SCREEN_X, SCREEN_Y}, (t_int_coord){0, 0}, SCREEN_Y / 2,
@@ -79,6 +79,7 @@ static t_env		*ft_initenv(char *argv)
 static int			ft_initsdl(t_env **env)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
+	TTF_Init();
 	(*env)->window = SDL_CreateWindow("wolf3d",
 			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 			(*env)->screen.x, (*env)->screen.y, SDL_WINDOW_RESIZABLE);
@@ -86,6 +87,7 @@ static int			ft_initsdl(t_env **env)
 			SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	SDL_SetRelativeMouseMode(1);
 	SDL_SetRenderDrawBlendMode((*env)->renderer, SDL_BLENDMODE_BLEND);
+	(*env)->font = TTF_OpenFont("res/DejaVuSansMono.ttf", 38);
 	return (1);
 }
 

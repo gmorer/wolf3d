@@ -6,18 +6,29 @@
 #    By: gmorer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/05/20 11:35:32 by gmorer            #+#    #+#              #
-#    Updated: 2017/03/30 07:58:22 by gmorer           ###   ########.fr        #
+#    Updated: 2017/05/11 13:35:48 by gmorer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = wolf3d
-CC = gcc
+UNAME = $(shell uname)
+CC = clang
 SDL = SDL2-2.0.5
-CFLAGSX =  -L/usr/include -lSDL2 -lm -fsanitize=address
-CFLAGS = -L libsdl/lib/ -lSDL2 -lm -fsanitize=address
+HPATH = inc/ libft/inc/
+SDL_FWK =  frameworks/SDL2.framework/Headers/\
+		   frameworks/SDL2_ttf.framework/Headers/\
+		   frameworks/SDL2_image.framework/Headers/
+ifeq ($(UNAME), Linux)
+	CFLAGS =  -L/usr/include -lSDL2 -lm# -fsanitize=address
+endif
+ifeq ($(UNAME), Darwin)
+	CFLAGS = -framework SDL2 -framework SDL2_ttf\
+			 -framework SDL2_image -F frameworks/
+	HPATH += $(SDL_FWK) 
+	SDL2_P		= -rpath @loader_path/frameworks/
+endif
 CPATH = src/
 OPATH = obj/
-HPATH = inc/ libft/inc/ libsdl/include/SDL2
 INC = $(addprefix -I , $(HPATH))
 CFILES = main.c\
 		 ft_print.c\
@@ -36,7 +47,9 @@ HFILES = inc/get_next_line.h\
 		 inc/input.h\
 		 inc/color.h\
 		 libft/inc/libft.h\
-		 libsdl/include/SDL2/SDL.h
+		 frameworks/SDL2.framework/headers/SDL.h\
+		 frameworks/SDL2_ttf.framework/headers/SDL_ttf.h\
+		 frameworks/SDL2_image.framework/headers/SDL_image.h
 OBJ = $(addprefix $(OPATH), $(OFILES))
 
 .PHONY: all clean fclean re
@@ -45,18 +58,11 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 		make -C libft
-		$(CC) $(OBJ) libft/libft.a  $(CFLAGS) -o $(NAME)
-
-linux : $(OBJ)
-		make -C libft
-		$(CC) $(OBJ) libft/libft.a  $(CFLAGSX) -o $(NAME)
-
-install :
-		./install_sdl.sh
+		$(CC) $(OBJ) libft/libft.a  $(CFLAGS) -o $(NAME) $(SDL2_P)
 
 debug: $(OBJ)
 		make -C libft
-		$(CC) -g $(CFLAGS) $(OBJ) libft/libft.a -o $(NAME)
+		$(CC) -g $(CFLAGS) $(OBJ) libft/libft.a -o $(NAME) $(SDL2_P)
 
 $(OPATH)%.o: $(CPATH)%.c $(HFILES)
 		mkdir -p $(OPATH)
