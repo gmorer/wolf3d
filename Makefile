@@ -18,15 +18,6 @@ HPATH = inc/ libft/inc/
 SDL_FWK =  frameworks/SDL2.framework/Headers/\
 		   frameworks/SDL2_ttf.framework/Headers/\
 		   frameworks/SDL2_image.framework/Headers/
-ifeq ($(UNAME), Linux)
-	CFLAGS =  -L/usr/include -lSDL2 -lm# -fsanitize=address
-endif
-ifeq ($(UNAME), Darwin)
-	CFLAGS = -framework SDL2 -framework SDL2_ttf\
-			 -framework SDL2_image -F frameworks/
-	HPATH += $(SDL_FWK) 
-	SDL2_P		= -rpath @loader_path/frameworks/
-endif
 CPATH = src/
 OPATH = obj/
 INC = $(addprefix -I , $(HPATH))
@@ -46,11 +37,22 @@ HFILES = inc/get_next_line.h\
 		 inc/wolf3d.h\
 		 inc/input.h\
 		 inc/color.h\
-		 libft/inc/libft.h\
-		 frameworks/SDL2.framework/headers/SDL.h\
+		 libft/inc/libft.h
+OBJ = $(addprefix $(OPATH), $(OFILES))
+ifeq ($(UNAME), Linux)
+	CFLAGS =  $(shell sdl2-config --libs) -lSDL2 -lSDL2_ttf -lSDL2_image -lm
+	SDL2_P		= 
+endif
+ifeq ($(UNAME), Darwin)
+	CFLAGS = -framework SDL2 -framework SDL2_ttf\
+			 -framework SDL2_image -F frameworks/
+	HPATH += $(SDL_FWK) 
+	SDL2_P		= -rpath @loader_path/frameworks/
+	HFILES +=
+		  frameworks/SDL2.framework/headers/SDL.h\
 		 frameworks/SDL2_ttf.framework/headers/SDL_ttf.h\
 		 frameworks/SDL2_image.framework/headers/SDL_image.h
-OBJ = $(addprefix $(OPATH), $(OFILES))
+endif
 
 .PHONY: all clean fclean re
 

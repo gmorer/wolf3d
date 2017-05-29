@@ -23,8 +23,14 @@
 # include <unistd.h>
 # include <math.h>
 # include <time.h>
-# include "SDL.h"
-# include "SDL_ttf.h"
+# ifdef __APPLE__
+#  include "SDL.h"
+#  include "SDL_ttf.h"
+# endif
+# ifndef __APPLE__
+#  include <SDL2/SDL.h>
+#  include <SDL2/SDL_ttf.h>
+# endif
 # include "get_next_line.h"
 # include "libft.h"
 # include "color.h"
