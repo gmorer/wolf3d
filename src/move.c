@@ -6,24 +6,16 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/22 11:37:05 by gmorer            #+#    #+#             */
-/*   Updated: 2017/05/11 14:09:16 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/05/30 10:25:51 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 #include <time.h>
 
-SDL_Texture		*load_txt(char *text, SDL_Color color, t_env *env)
+SDL_Surface		*load_txt(char *text, SDL_Color color, t_env *env)
 {
-	SDL_Texture	*texture;
-	SDL_Surface	*surface;
-
-	surface = TTF_RenderText_Solid(env->font, text, color);
-	if (!surface)
-		return (NULL);
-	texture = SDL_CreateTextureFromSurface(env->renderer, surface);
-	SDL_FreeSurface(surface);
-	return (texture);
+	return (TTF_RenderText_Solid(env->font, text, color));
 }
 
 
@@ -60,7 +52,7 @@ int			ft_image_put(t_env *env)
 	double			n;
 	int				fps;
 	char			*str;
-	SDL_Texture*    texture;
+	SDL_Surface*    text;
 
 	time = clock();
 	ft_forline(env);
@@ -71,8 +63,8 @@ int			ft_image_put(t_env *env)
 	if (fps > 0)
 	{
 		str = ft_itoa(fps);
-		texture = load_txt(str, (SDL_Color){255, 255, 255, 0}, env);
-		SDL_RenderCopy(env->renderer, texture, NULL, &(SDL_Rect){0, 0, 80, 40});
+		text = load_txt(str, (SDL_Color){255, 255, 255, 0}, env);
+		SDL_BlitSurface(text, NULL, env->surface, &(SDL_Rect){0, 0, 80, 40});
 		free(str);
 	}
 	return (1);

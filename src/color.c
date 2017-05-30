@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/25 12:56:52 by gmorer            #+#    #+#             */
-/*   Updated: 2017/03/30 07:55:32 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/05/30 09:48:22 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int		ft_exit(t_env *env)
 	while (i < env->size.y + 2)
 		free(env->map[i++]);
 	free(env->map);
-	SDL_DestroyRenderer(env->renderer);
 	SDL_DestroyWindow(env->window);
 	SDL_Quit();
 	free(env);

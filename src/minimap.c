@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/25 17:08:43 by gmorer            #+#    #+#             */
-/*   Updated: 2017/03/30 07:57:51 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/05/30 16:23:35 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ static int	print_player(t_env *env, t_int_coord count)
 		{
 			color = BLUE;
 			color.a = 150;
-			count.x = count.x + (env->screen.x - 200);
-			count.y = count.y + (env->screen.y - 200);
-			draw_pixel(env, count, &(color));
+			count.x = count.x + (env->surface->w - 200);
+			count.y = count.y + (env->surface->h - 200);
+			draw_pixel(env, count, color);
 		}
 	return (1);
 }
@@ -45,11 +45,11 @@ int			ft_minimap(t_env *env)
 			else
 				color = BLACK;
 			color.a = 150;
-			count.x = count.x + (env->screen.x - 200);
-			count.y = count.y + (env->screen.y - 200);
-			draw_pixel(env, count, &(color));
-			count.x = count.x - (env->screen.x - 200);
-			count.y = count.y - (env->screen.y - 200);
+			count.x = count.x + (env->surface->w - 200);
+			count.y = count.y + (env->surface->h - 200);
+			draw_pixel(env, count, color);
+			count.x = count.x - (env->surface->w - 200);
+			count.y = count.y - (env->surface->h - 200);
 			print_player(env, count);
 			count.x++;
 		}

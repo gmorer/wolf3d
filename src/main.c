@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/22 11:37:05 by gmorer            #+#    #+#             */
-/*   Updated: 2017/05/11 14:09:20 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/05/30 15:48:17 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,8 @@ static int			ft_initsdl(t_env **env)
 	(*env)->window = SDL_CreateWindow("wolf3d",
 			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 			(*env)->screen.x, (*env)->screen.y, SDL_WINDOW_RESIZABLE);
-	(*env)->renderer = SDL_CreateRenderer((*env)->window, -1,
-			SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	(*env)->surface = SDL_GetWindowSurface((*env)->window);
 	SDL_SetRelativeMouseMode(1);
-	SDL_SetRenderDrawBlendMode((*env)->renderer, SDL_BLENDMODE_BLEND);
 	(*env)->font = TTF_OpenFont("res/DejaVuSansMono.ttf", 38);
 	return (1);
 }
@@ -151,14 +149,14 @@ int					main(int argc, char **argv)
 			{
 				env->screen.x = event.window.data1;
 				env->screen.y = event.window.data2;
+				SDL_FreeSurface(env->surface);
+				env->surface = SDL_GetWindowSurface(env->window);
 			}
 			if (event.type == SDL_MOUSEMOTION)
 				ft_mouse(&event, env);
 		}
-		SDL_SetRenderDrawColor(env->renderer, 0, 0, 0, 0);
-		SDL_RenderClear(env->renderer);
+		SDL_UpdateWindowSurface(env->window);
 		ft_image_put(env);
-		SDL_RenderPresent(env->renderer);
 	}
 	return (0);
 }
