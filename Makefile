@@ -6,7 +6,7 @@
 #    By: gmorer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/05/20 11:35:32 by gmorer            #+#    #+#              #
-#    Updated: 2017/05/11 13:35:48 by gmorer           ###   ########.fr        #
+#    Updated: 2017/05/30 15:19:34 by gmorer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ ifeq ($(UNAME), Darwin)
 			 -framework SDL2_image -F frameworks/
 	HPATH += $(SDL_FWK) 
 	SDL2_P		= -rpath @loader_path/frameworks/
-	HFILES +=
+	HFILES +=\
 		  frameworks/SDL2.framework/headers/SDL.h\
 		 frameworks/SDL2_ttf.framework/headers/SDL_ttf.h\
 		 frameworks/SDL2_image.framework/headers/SDL_image.h
