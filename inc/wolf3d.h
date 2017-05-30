@@ -15,7 +15,8 @@
 # define SCREEN_X 1440
 # define SCREEN_Y 940
 # define TEXTURE_MAX 10
-# define OPT 1
+# define OPT 5
+# define TEXTURE_DIM 500
 # include <fcntl.h>
 # include <stdlib.h>
 # include <sys/types.h>
@@ -26,10 +27,12 @@
 # ifdef __APPLE__
 #  include "SDL.h"
 #  include "SDL_ttf.h"
+#  include "SDL_image.h"
 # endif
 # ifndef __APPLE__
 #  include <SDL2/SDL.h>
 #  include <SDL2/SDL_ttf.h>
+#  include <SDL2/SDL_image.h>
 # endif
 # include "get_next_line.h"
 # include "libft.h"
@@ -86,7 +89,7 @@ typedef struct		s_calc
 typedef struct		s_env
 {
 	SDL_Window		*window;
-	SDL_Renderer	*renderer;
+	SDL_Surface		*surface;
 	TTF_Font		*font;
 	t_key			key;
 	t_double_coord	dir;
@@ -99,7 +102,8 @@ typedef struct		s_env
 	int				shadow;
 	int				**map;
 	int				mouse;
-	t_texture		*texture[TEXTURE_MAX];
+	SDL_Surface 	*texture[TEXTURE_MAX];
+	t_calc			calc;
 }					t_env;
 
 void				load_texture(t_env *env);
@@ -109,7 +113,7 @@ int					ft_exit(t_env *env);
 int					getsize(t_env **env, char *argc);
 int					**ft_read(char *argv, t_env *env);
 int					ft_parser(t_env *env, char *str);
-void				draw_pixel(t_env *env, t_int_coord coord, t_color *color);
+void				draw_pixel(t_env *env, t_int_coord coord, t_color color);
 void				ft_forline(t_env *env);
 void				ft_print_line(t_env *env, t_color color, int len, int x);
 int					ft_image_put(t_env *env);

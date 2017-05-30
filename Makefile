@@ -40,7 +40,7 @@ HFILES = inc/get_next_line.h\
 		 libft/inc/libft.h
 OBJ = $(addprefix $(OPATH), $(OFILES))
 ifeq ($(UNAME), Linux)
-	CFLAGS =  $(shell sdl2-config --libs) -lSDL2 -lSDL2_ttf -lSDL2_image -lm
+	CFLAGS = -g $(shell sdl2-config --libs) -lSDL2 -lSDL2_ttf -lSDL2_image -lm #-fsanitize=address
 	SDL2_P		= 
 endif
 ifeq ($(UNAME), Darwin)

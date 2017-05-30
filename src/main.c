@@ -78,8 +78,11 @@ static t_env		*ft_initenv(char *argv)
 
 static int			ft_initsdl(t_env **env)
 {
+    int imgFlags = IMG_INIT_PNG;
+
 	SDL_Init(SDL_INIT_EVERYTHING);
 	TTF_Init();
+    IMG_Init(imgFlags);
 	(*env)->window = SDL_CreateWindow("wolf3d",
 			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 			(*env)->screen.x, (*env)->screen.y, SDL_WINDOW_RESIZABLE);

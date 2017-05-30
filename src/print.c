@@ -97,11 +97,10 @@ void			draw_texture(int i, int len, double place, t_env *env)
 	int		opt;
 
 	opt = 0;
-	real_place = env->texture[(int)place]->w * (place - (int)place);
-	real_place = real_place / OPT * OPT;
-	printf("place :%f\n", place);
 	if (!env->texture[(int)place] || !env->surface)
 		return ;
+	real_place = env->texture[(int)place]->w * (place - (int)place);
+	real_place = real_place / OPT * OPT;
 	SDL_BlitScaled(env->texture[(int)place],
 			&(SDL_Rect){real_place, OPT - 1, 1, env->texture[(int)place]->h},
 			env->surface, &(SDL_Rect){i, (-len / 2 + env->horizon), OPT, len});

@@ -17,7 +17,8 @@ SDL_Surface	*surface_from_bmp(char *path, t_env *env)
 	SDL_Surface *surface;
 	SDL_Surface	*surface2;
 
-	surface = SDL_LoadBMP(path);
+	//surface = SDL_LoadBMP(path);
+    surface = IMG_Load(path);
 	if (!surface)
 	{
 		ft_putstr("error during texture loading : ");
@@ -40,14 +41,14 @@ SDL_Surface	*surface_from_bmp(char *path, t_env *env)
 void		load_texture(t_env *env)
 {
 	bzero(env->texture, 10);
-	env->texture[0] = surface_from_bmp("./res/stone.bmp", env);
-	env->texture[1] = surface_from_bmp("./res/42.bmp", env);
-	env->texture[2] = surface_from_bmp("./res/bomb.bmp", env);
-	env->texture[3] = surface_from_bmp("./res/dirt.bmp", env);
-	env->texture[4] = surface_from_bmp("./res/golum.bmp", env);
-	env->texture[5] = surface_from_bmp("./res/matrix.bmp", env);
-	env->texture[6] = surface_from_bmp("./res/sponge.bmp", env);
-	env->texture[7] = surface_from_bmp("./res/tnt.bmp", env);
-	env->texture[8] = surface_from_bmp("./res/tux.bmp", env);
-	env->texture[9] = surface_from_bmp("./res/wood.bmp", env);
+	env->texture[0] = surface_from_bmp("./res/stone.png", env);
+	env->texture[1] = surface_from_bmp("./res/42.png", env);
+	env->texture[2] = surface_from_bmp("./res/bomb.png", env);
+	env->texture[3] = surface_from_bmp("./res/dirt.png", env);
+	env->texture[4] = surface_from_bmp("./res/golum.png", env);
+	env->texture[5] = surface_from_bmp("./res/matrix.png", env);
+	env->texture[6] = surface_from_bmp("./res/sponge.png", env);
+	env->texture[7] = surface_from_bmp("./res/tnt.png", env);
+	env->texture[8] = surface_from_bmp("./res/tux.png", env);
+	env->texture[9] = surface_from_bmp("./res/wood.png", env);
 }
