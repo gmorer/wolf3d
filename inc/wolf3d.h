@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 11:44:38 by gmorer            #+#    #+#             */
-/*   Updated: 2017/05/11 13:41:22 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/05/31 10:56:59 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ typedef struct		s_env
 	t_calc			calc;
 }					t_env;
 
+void				draw_vert_line(t_env *env, t_int_coord cor, int len, t_color color);
+void				draw_hori_line(t_env *env, t_int_coord cor, int len, t_color color);
 void				load_texture(t_env *env);
 int					ft_minimap(t_env *env);
 t_color				colorchoose(int i, t_env *env);
