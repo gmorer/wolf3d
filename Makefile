@@ -6,13 +6,13 @@
 #    By: gmorer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/05/20 11:35:32 by gmorer            #+#    #+#              #
-#    Updated: 2017/05/30 15:19:34 by gmorer           ###   ########.fr        #
+#    Updated: 2017/05/31 15:28:47 by gmorer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = wolf3d
 UNAME = $(shell uname)
-CC = clang
+CC = clang -Ofast
 SDL = SDL2-2.0.5
 HPATH = inc/ libft/inc/
 SDL_FWK =  frameworks/SDL2.framework/Headers/\
@@ -45,7 +45,7 @@ ifeq ($(UNAME), Linux)
 endif
 ifeq ($(UNAME), Darwin)
 	CFLAGS = -framework SDL2 -framework SDL2_ttf\
-			 -framework SDL2_image -F frameworks/
+			 -framework SDL2_image -F frameworks/ -fsanitize=address
 	HPATH += $(SDL_FWK) 
 	SDL2_P		= -rpath @loader_path/frameworks/
 	HFILES +=\

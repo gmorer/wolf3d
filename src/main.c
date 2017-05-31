@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/22 11:37:05 by gmorer            #+#    #+#             */
-/*   Updated: 2017/05/30 15:48:17 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/05/31 15:37:23 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ static t_env		*ft_initenv(char *argv)
 		(t_double_coord){-1, 0}, (t_double_coord){0, 0},
 		(t_double_coord){0, 0.5},
 		(t_int_coord){SCREEN_X, SCREEN_Y}, (t_int_coord){0, 0}, SCREEN_Y / 2,
-		0, 0, 0, 1};
+		0, 1, 0, 1};
+	env->back = background(env);
 	if (ft_parser(env, argv) == 0)
 		return (NULL);
 	return (env);
@@ -154,6 +155,8 @@ int					main(int argc, char **argv)
 				env->screen.y = event.window.data2;
 				SDL_FreeSurface(env->surface);
 				env->surface = SDL_GetWindowSurface(env->window);
+				SDL_FreeSurface(env->back);
+				env->back = background(env);
 			}
 			if (event.type == SDL_MOUSEMOTION)
 				ft_mouse(&event, env);

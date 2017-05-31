@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 11:44:38 by gmorer            #+#    #+#             */
-/*   Updated: 2017/05/31 10:56:59 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/05/31 17:31:26 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,10 @@ typedef struct		s_env
 	int				mouse;
 	SDL_Surface 	*texture[TEXTURE_MAX];
 	t_calc			calc;
+	SDL_Surface 	*back;
 }					t_env;
 
+SDL_Surface			*background(t_env *env);
 void				draw_vert_line(t_env *env, t_int_coord cor, int len, t_color color);
 void				draw_hori_line(t_env *env, t_int_coord cor, int len, t_color color);
 void				load_texture(t_env *env);

@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 13:15:37 by gmorer            #+#    #+#             */
-/*   Updated: 2017/05/30 16:37:42 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/05/31 17:59:32 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static int	getlen_colorbisbis(t_calc c, t_env *env, int *len, double *place)
 {
-	double lol;
+	double	lol;
+	int		rslt;
 
 	if (c.side == 2 || c.side == 3)
 		c.temp = (c.map.y - env->pos.y + (1 - c.step.y) * 0.5) / c.raydir.y;
@@ -31,8 +32,8 @@ static int	getlen_colorbisbis(t_calc c, t_env *env, int *len, double *place)
 	env->calc = c;
 	if (env->colormod == 1)
 		return (c.side);
-	else
-		return ((env->map[c.map.x][c.map.y] - 1) % TEXTURE_MAX);
+	rslt = env->map[c.map.x][c.map.y] - 1 % TEXTURE_MAX;
+	return (c.side == 1 || c.side == 2 ? rslt : -rslt);
 }
 
 static int	getlen_colorbis(t_calc c, t_env *env, int *len, double *place)
@@ -96,14 +97,24 @@ void			draw_texture(int i, int len, double place, t_env *env)
 	int		temp;
 	int		opt;
 
+		real_place = env->texture[(int)place]->w * (place - (int)place);
+	if (len > 0)
+	{
+		real_place = env->texture[(int)place]->w - real_place;
+	}
+	len = abs(len);
 	opt = 0;
 	if (!env->texture[(int)place] || !env->surface)
+	{
+		SDL_FillRect(env->surface, &(SDL_Rect){i, (-len * 0.5 + env->horizon), OPT, len}, 0xFFFFFFFF);
 		return ;
-	real_place = env->texture[(int)place]->w * (place - (int)place);
+	}
 	real_place = real_place / OPT * OPT;
+	//printf("%d\n", env->texture[(int)place]->h);
 	SDL_BlitScaled(env->texture[(int)place],
-			&(SDL_Rect){real_place, OPT - 1, 1, env->texture[(int)place]->h},
-			env->surface, &(SDL_Rect){i, (-len / 2 + env->horizon), OPT, len});
+			&(SDL_Rect){real_place, 0,
+			(OPT + real_place >= env->texture[(int)place]->h) ? 1 : OPT, env->texture[(int)place]->h - 1},
+			env->surface, &(SDL_Rect){i, (-len * 0.5 + env->horizon), OPT, len});
 }
 
 void			draw_floor(t_env *env, int len, int y, double place)
@@ -133,36 +144,36 @@ void			ft_forline(t_env *env)
 
 	i = 0;
 	tmp = env->horizon;
-	SDL_FillRect(env->surface, &(SDL_Rect){0, env->horizon, env->surface->w, env->surface->h}, 0xFF008000);
-	SDL_FillRect(env->surface, &(SDL_Rect){0, 0, env->surface->w, env->horizon}, 0xFF000000);
+	if (!env->shadow)
+	{
+			SDL_FillRect(env->surface, &(SDL_Rect){0, env->horizon, env->surface->w, env->surface->h}, 0xFF008000);
+			SDL_FillRect(env->surface, &(SDL_Rect){0, 0, env->surface->w, env->horizon}, 0xFF000000);
+	}
+	else
+	{
+			SDL_BlitScaled(env->back, &(SDL_Rect){0, (env->screen.y - env->horizon),
+					env->screen.x, (env->screen.y - env->horizon)  / 2i + env->screen.y * 1},
+			env->surface, NULL);
+	}
 	while (i <= env->surface->w)
 	{
 		tmp = getlen_color(i, env, &len, &place);
-	//	SDL_SetRenderDrawColor(env->renderer, 0, 0, 0, 255);
-	//	SDL_RenderDrawLine(env->renderer, i, 0, i, (-len / 2 + env->horizon));
-//		draw_vert_line(env, (t_int_coord){i, 0}, (-len / 2 + env->horizon), (t_color){0, 0, 0, 0});
 		if (env->colormod != 2)
 		{
-			color = colorchoose(tmp, env);
+			color = colorchoose(abs(tmp), env);
 			if (len < env->surface->h && env->shadow == 1)
 			{
 				color.r = color.r * len / env->surface->h;
 				color.g = color.g * len / env->surface->h;
 				color.b = color.b * len / env->surface->h;
 			}
-		//	SDL_FillRect(env->surface, &(SDL_Rect){i, len * -0.5 + env->horizon, i, len * 0.5 + env->horizon},
-		//			(size_t)(color.b | color.g << 8 | color.r << 16 | 0xFF << 24));
 			draw_vert_line(env, (t_int_coord){i, (-len / 2 + env->horizon)}, len, 
 				(t_color){color.r, color.g, color.b, 255});
-			//SDL_RenderDrawLine(env->renderer, i, (-len / 2 + env->horizon), i,
-			//		(len / 2 + env->horizon));
-			//if (i == env->screen.x / 2)
-			//draw_floor(env, len, i, place);
 		}
 		else
 		{
-			draw_texture(i, len, tmp + place, env);
+			draw_texture(i, tmp > 0 ? len : -len, abs(tmp) + place, env);
 		}
-		i = env->colormod == 2 ? i + OPT : i + 1;
+		i += env->colormod == 2 ? OPT : 1;
 	}
 }

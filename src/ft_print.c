@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/06 18:02:31 by gmorer            #+#    #+#             */
-/*   Updated: 2017/05/30 16:22:45 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/05/31 15:48:46 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,31 @@ void			draw_hori_line(t_env *env, t_int_coord cor, int len, t_color color)
 		draw_pixel(env, (t_int_coord){cor.y + i, cor.x}, color);
 		i++;
 	}
+}
+
+SDL_Surface		*background(t_env *env)
+{
+	SDL_Surface		*rslt;
+	int				i;
+	
+	rslt = SDL_CreateRGBSurface(0, env->screen.x, env->screen.y * 2, 32, 0, 0, 0, 0);
+	SDL_FillRect(rslt, &(SDL_Rect){0, 0, env->screen.x, env->screen.y}, 0xFF000000);
+	if (env->shadow == 0)
+	{
+		SDL_FillRect(rslt, &(SDL_Rect){0, env->screen.y, env->screen.x, env->screen.y * 2},
+				0xFF00FF00);
+		return (rslt);
+	}
+	else
+	{
+		i = env->screen.y;
+		while (i < env->screen.y * 2)
+		{
+			SDL_FillRect(rslt, &(SDL_Rect){0, i, env->screen.x, i}, 0x00 << 8| 0x00 << 16 |
+					((int)(128 * ((i - env->screen.y)) / ((env->screen.y - env->horizon)))) |
+					0xFF << 24);
+			i++;
+		}
+	}
+	return (rslt);
 }
