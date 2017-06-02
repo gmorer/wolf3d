@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 11:44:38 by gmorer            #+#    #+#             */
-/*   Updated: 2017/05/31 17:31:26 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/06/02 17:10:47 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 # define SCREEN_X 1440
 # define SCREEN_Y 940
 # define TEXTURE_MAX 10
-# define OPT 5
-# define TEXTURE_DIM 500
+# define OPT 10
+# define PTHREAD_THREADS_MAX 1
+# define TEXTURE_DIM 50
 # include <fcntl.h>
 # include <stdlib.h>
 # include <sys/types.h>
@@ -24,6 +25,7 @@
 # include <unistd.h>
 # include <math.h>
 # include <time.h>
+# include <pthread.h>
 # ifdef __APPLE__
 #  include "SDL.h"
 #  include "SDL_ttf.h"
@@ -105,6 +107,7 @@ typedef struct		s_env
 	SDL_Surface 	*texture[TEXTURE_MAX];
 	t_calc			calc;
 	SDL_Surface 	*back;
+	pthread_t		thread[PTHREAD_THREADS_MAX];
 }					t_env;
 
 SDL_Surface			*background(t_env *env);

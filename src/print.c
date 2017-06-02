@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 13:15:37 by gmorer            #+#    #+#             */
-/*   Updated: 2017/05/31 17:59:32 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/06/02 17:19:37 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,26 +95,30 @@ void			draw_texture(int i, int len, double place, t_env *env)
 {
 	double	real_place;
 	int		temp;
-	int		opt;
 
-		real_place = env->texture[(int)place]->w * (place - (int)place);
+	real_place = env->texture[(int)place]->w * (place - (int)place);
 	if (len > 0)
 	{
 		real_place = env->texture[(int)place]->w - real_place;
 	}
 	len = abs(len);
-	opt = 0;
 	if (!env->texture[(int)place] || !env->surface)
 	{
 		SDL_FillRect(env->surface, &(SDL_Rect){i, (-len * 0.5 + env->horizon), OPT, len}, 0xFFFFFFFF);
 		return ;
 	}
 	real_place = real_place / OPT * OPT;
+	printf("for i = %d:rect1: %d, %d, %d, %d | rect2 : %d, %d, %d, %d\n",i,(int)fabs(real_place), 0, 1,
+			env->texture[(int)place]->h - 1,i, (-len * 0.5 + env->horizon),
+			OPT + i > env->surface->w ? 0 : OPT, len);
 	//printf("%d\n", env->texture[(int)place]->h);
-	SDL_BlitScaled(env->texture[(int)place],
-			&(SDL_Rect){real_place, 0,
-			(OPT + real_place >= env->texture[(int)place]->h) ? 1 : OPT, env->texture[(int)place]->h - 1},
-			env->surface, &(SDL_Rect){i, (-len * 0.5 + env->horizon), OPT, len});
+		SDL_BlitScaled(env->texture[(int)place], &(SDL_Rect){(int)fabs(real_place), 0, 1,
+				env->texture[(int)place]->h - 1},env->surface, &(SDL_Rect)
+			{i, (-len * 0.5 + env->horizon), OPT + i > env->surface->w ? 0 : OPT, len});
+	//write(2, SDL_GetError(), 500);
+	//SDL_BlitScaled(env->texture[(int)place], &(SDL_Rect){(int)real_place, 0, 1,
+	//		env->texture[(int)place]->h - 1},env->surface, &(SDL_Rect){i, (int)(-len * 0.5 + env->horizon),
+	//		OPT, len});
 }
 
 void			draw_floor(t_env *env, int len, int y, double place)
@@ -123,38 +127,37 @@ void			draw_floor(t_env *env, int len, int y, double place)
 	int i;
 	int len_save;
 	int x;
-	   tmp = 0;
-	   i = 1;
-	   len_save = len;
-	   while ((x = tmp + (len_save / 2) + env->horizon) < env->surface->h && i < 20)
-	   {
-		   len += (len / 5) * 2;
-		   tmp += len / 7;
-		   i++;
-	   }
+	tmp = 0;
+	i = 1;
+	len_save = len;
+	while ((x = tmp + (len_save / 2) + env->horizon) < env->surface->h && i < 20)
+	{
+		len += (len / 5) * 2;
+		tmp += len / 7;
+		i++;
+	}
 }
 
-void			ft_forline(t_env *env)
+void			loop(t_env *env)
 {
-	int		i;
+	int		tmp;
 	int		len;
 	t_color	color;
-	int		tmp;
 	double	place;
+	int		i;
+	int		nb;
 
-	i = 0;
-	tmp = env->horizon;
-	if (!env->shadow)
+	nb = 0;
+	if (PTHREAD_THREADS_MAX > 1)
 	{
-			SDL_FillRect(env->surface, &(SDL_Rect){0, env->horizon, env->surface->w, env->surface->h}, 0xFF008000);
-			SDL_FillRect(env->surface, &(SDL_Rect){0, 0, env->surface->w, env->horizon}, 0xFF000000);
+		while (nb < PTHREAD_THREADS_MAX)
+		{
+			if (env->thread[nb] == pthread_self())
+				break;
+			nb++;
+		}
 	}
-	else
-	{
-			SDL_BlitScaled(env->back, &(SDL_Rect){0, (env->screen.y - env->horizon),
-					env->screen.x, (env->screen.y - env->horizon)  / 2i + env->screen.y * 1},
-			env->surface, NULL);
-	}
+	i = nb;
 	while (i <= env->surface->w)
 	{
 		tmp = getlen_color(i, env, &len, &place);
@@ -168,12 +171,52 @@ void			ft_forline(t_env *env)
 				color.b = color.b * len / env->surface->h;
 			}
 			draw_vert_line(env, (t_int_coord){i, (-len / 2 + env->horizon)}, len, 
-				(t_color){color.r, color.g, color.b, 255});
+					(t_color){255, color.r, color.g, color.b});
 		}
 		else
 		{
 			draw_texture(i, tmp > 0 ? len : -len, abs(tmp) + place, env);
 		}
-		i += env->colormod == 2 ? OPT : 1;
+		//i += env->colormod == 2 ? OPT : 1;
+		//i += PTHREAD_THREADS_MAX + OPT - 1;
+		i += env->colormod == 2 ? OPT + PTHREAD_THREADS_MAX - 1: PTHREAD_THREADS_MAX;
 	}
+}
+
+void			ft_forline(t_env *env)
+{
+	pthread_t	test_thread;
+	int			ret;
+	int			i;
+
+	if (!env->shadow)
+	{
+		SDL_FillRect(env->surface, &(SDL_Rect){0, env->horizon, env->surface->w, env->surface->h}, 0xFF008000);
+		SDL_FillRect(env->surface, &(SDL_Rect){0, 0, env->surface->w, env->horizon}, 0xFF000000);
+	}
+	else
+	{
+		SDL_BlitScaled(env->back, &(SDL_Rect){0, (env->screen.y - env->horizon),
+				env->screen.x, env->screen.y * 1},
+				env->surface, NULL);
+	}
+	//////////////////////////////////////////////////////////////////////////////////
+	i = 0;
+	if (PTHREAD_THREADS_MAX > 1)
+	{
+		while (i < PTHREAD_THREADS_MAX)
+		{
+			ret = pthread_create (&env->thread[i], NULL,loop, (void*)env);
+			i++;
+		}
+		i = 0;
+		while (i < PTHREAD_THREADS_MAX)
+		{
+			pthread_join(env->thread[i], NULL);
+			i++;
+		}
+	}
+	else
+		loop(env);
+	//////////////////////////////////////////////////////////////////////////////////
 }

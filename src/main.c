@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/22 11:37:05 by gmorer            #+#    #+#             */
-/*   Updated: 2017/05/31 15:37:23 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/06/01 10:39:40 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ int					main(int argc, char **argv)
 			{
 				env->screen.x = event.window.data1;
 				env->screen.y = event.window.data2;
+				env->horizon = env->screen.y * 0.5;
 				SDL_FreeSurface(env->surface);
 				env->surface = SDL_GetWindowSurface(env->window);
 				SDL_FreeSurface(env->back);

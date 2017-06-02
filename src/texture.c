@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 02:05:28 by gmorer            #+#    #+#             */
-/*   Updated: 2017/05/31 15:56:22 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/06/01 11:04:38 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ SDL_Surface	*surface_from_bmp(char *path, t_env *env)
 		ft_putendl(SDL_GetError());
 		return (NULL);
 	}
+	//surface2 = SDL_CreateRGBSurface(0, surface->h / OPT, surface->w / OPT, 32, 0, 0, 0, 0);
 	surface2 = SDL_CreateRGBSurface(0, TEXTURE_DIM, TEXTURE_DIM, 32, 0, 0, 0, 0);
 	if (SDL_BlitScaled(surface, NULL, surface2, NULL) < 0)
 	{

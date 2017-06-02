@@ -6,7 +6,7 @@
 /*   By: gmorer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/06 18:02:31 by gmorer            #+#    #+#             */
-/*   Updated: 2017/05/31 15:48:46 by gmorer           ###   ########.fr       */
+/*   Updated: 2017/06/01 10:37:30 by gmorer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void			draw_pixel(t_env *env, t_int_coord cor, t_color color)
 		return ;
 	clr = color.b | (color.g << 8) | (color.r << 16) | (color.a << 24);
 	*((unsigned *)(env->surface->pixels + cor.y * env->surface->pitch + cor.x *
-				    env->surface->format->BytesPerPixel)) = clr;
+				env->surface->format->BytesPerPixel)) = clr;
 }
 
 void			draw_vert_line(t_env *env, t_int_coord cor, int len, t_color color)
@@ -70,25 +70,16 @@ SDL_Surface		*background(t_env *env)
 {
 	SDL_Surface		*rslt;
 	int				i;
-	
+
 	rslt = SDL_CreateRGBSurface(0, env->screen.x, env->screen.y * 2, 32, 0, 0, 0, 0);
 	SDL_FillRect(rslt, &(SDL_Rect){0, 0, env->screen.x, env->screen.y}, 0xFF000000);
-	if (env->shadow == 0)
+	i = env->screen.y;
+	while (i < env->screen.y * 2)
 	{
-		SDL_FillRect(rslt, &(SDL_Rect){0, env->screen.y, env->screen.x, env->screen.y * 2},
-				0xFF00FF00);
-		return (rslt);
-	}
-	else
-	{
-		i = env->screen.y;
-		while (i < env->screen.y * 2)
-		{
-			SDL_FillRect(rslt, &(SDL_Rect){0, i, env->screen.x, i}, 0x00 << 8| 0x00 << 16 |
-					((int)(128 * ((i - env->screen.y)) / ((env->screen.y - env->horizon)))) |
-					0xFF << 24);
-			i++;
-		}
+		SDL_FillRect(rslt, &(SDL_Rect){0, i, env->screen.x, i}, (size_t)(0x00 | 0x00 << 16 |
+				((int)(128 * ((i - env->screen.y)) / ((env->screen.y - env->horizon)))) << 8 |
+				0xFF << 24));
+		i++;
 	}
 	return (rslt);
 }

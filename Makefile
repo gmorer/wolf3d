@@ -6,7 +6,7 @@
 #    By: gmorer <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/05/20 11:35:32 by gmorer            #+#    #+#              #
-#    Updated: 2017/05/31 15:28:47 by gmorer           ###   ########.fr        #
+#    Updated: 2017/06/01 12:16:45 by gmorer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,12 +39,13 @@ HFILES = inc/get_next_line.h\
 		 inc/color.h\
 		 libft/inc/libft.h
 OBJ = $(addprefix $(OPATH), $(OFILES))
+CFLAGS = -lpthread
 ifeq ($(UNAME), Linux)
-	CFLAGS = -g $(shell sdl2-config --libs) -lSDL2 -lSDL2_ttf -lSDL2_image -lm #-fsanitize=address
+	CFLAGS += -g $(shell sdl2-config --libs) -lSDL2 -lSDL2_ttf -lSDL2_image -lm #-fsanitize=address
 	SDL2_P		= 
 endif
 ifeq ($(UNAME), Darwin)
-	CFLAGS = -framework SDL2 -framework SDL2_ttf\
+	CFLAGS += -framework SDL2 -framework SDL2_ttf\
 			 -framework SDL2_image -F frameworks/ -fsanitize=address
 	HPATH += $(SDL_FWK) 
 	SDL2_P		= -rpath @loader_path/frameworks/
